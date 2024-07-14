@@ -14,10 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import br.com.fiap.ez.fastfood.application.dto.CustomerDTO;
 import br.com.fiap.ez.fastfood.application.ports.in.CustomerService;
 import br.com.fiap.ez.fastfood.config.exception.BusinessException;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
-import br.com.fiap.ez.fastfood.dto.CustomerDTO;
 import java.util.ArrayList;
 
 @RestController

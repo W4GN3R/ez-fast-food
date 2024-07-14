@@ -34,7 +34,7 @@
         <collectionProp name="Arguments.arguments"/>
       </Arguments>
       <hashTree/>
-      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -71,7 +71,7 @@
         <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report">
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -119,7 +119,7 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="1. 0 - Customer Transaction Controler">
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="1. 0 - Customer Transaction Controler" enabled="true">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
         </TransactionController>
         <hashTree>
@@ -186,7 +186,7 @@
                   <stringProp name="Argument.value">{&#xd;
     &quot;name&quot;: &quot;Fernando da Silva&quot;,&#xd;
     &quot;cpf&quot;: &quot;000.000.000-01&quot;,&#xd;
-    &quot;email&quot;: &quot;tchfernando@teste.com&quot;&#xd;
+    &quot;email&quot;: &quot;tchfernando@gmail.com&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -211,7 +211,7 @@
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="5. GET /api/customers/list-all">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="5. GET /api/customers/list-all" enabled="true">
             <stringProp name="TestPlan.comments">curl http://localhost:8080/api/customers
 </stringProp>
             <stringProp name="HTTPSampler.domain">localhost</stringProp>
