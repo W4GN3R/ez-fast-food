@@ -12,4 +12,5 @@ INSERT INTO EZ_FASTFOOD.CUSTOMERS (name, cpf, email)
 VALUES 
 ('Thaynara da Silva', '406.000.738-08', 'thaynara@example.com'),
 ('Flavio da Silva', '121.000.000-01', 'flavio@hotmail.com'),
+('Wagner Cruz', '888.000.000-08', 'wagner@hotmail.com'),
 ('Flavio Fernando da Silva', '000.000.000-00', 'fernando@hotmail.com');
