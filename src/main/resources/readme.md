@@ -1,40 +1,40 @@
 # Estrutura
 br.com.fiap.ez.fastfood
 ├── adapters
-│   ├── in
-│   │   ├── controller
-│   │   │   ├── CustomerController.java
-│   │   │   ├── ErrorResponse.java
-│   │   │   └── ProductController.java
-│   └── out
-│       └── repository
-│           ├── CustomerJpaRepository.java
-│           ├── CustomerRepositoryImpl.java
-│           ├── ProductJpaRepository.java
-│           └── ProductRepositoryImpl.java
+│ ├── in
+│ │ ├── controller
+│ │ │ ├── CustomerController.java
+│ │ │ ├── ErrorResponse.java
+│ │ │ └── ProductController.java
+│ └── out
+│ └── repository
+│ ├── CustomerJpaRepository.java
+│ ├── CustomerRepositoryImpl.java
+│ ├── ProductJpaRepository.java
+│ └── ProductRepositoryImpl.java
 ├── application
-│   ├── dto
-│   │   ├── CustomerDTO.java
-│   │   └── ProductDTO.java
-│   ├── port
-│   │   ├── in
-│   │   │   ├── CustomerService.java
-│   │   │   └── ProductService.java
-│   │   └── out
-│   │       ├── CustomerRepository.java
-│   │       └── ProductRepository.java
-│   └── service
-│       ├── CustomerServiceImpl.java
-│       └── ProductServiceImpl.java
+│ ├── dto
+│ │ ├── CustomerDTO.java
+│ │ └── ProductDTO.java
+│ ├── port
+│ │ ├── in
+│ │ │ ├── CustomerService.java
+│ │ │ └── ProductService.java
+│ │ └── out
+│ │ ├── CustomerRepository.java
+│ │ └── ProductRepository.java
+│ └── service
+│ ├── CustomerServiceImpl.java
+│ └── ProductServiceImpl.java
 ├── config
-│   └── exception
-│       ├── BusinessException.java
-│       └── CustomExceptionHandler.java
+│ └── exception
+│ ├── BusinessException.java
+│ └── CustomExceptionHandler.java
 ├── domain
-│   └── model
-│       ├── Category.java
-│       ├── Customer.java
-│       └── Product.java
+│ └── model
+│ ├── Category.java
+│ ├── Customer.java
+│ └── Product.java
 └── APIApplication.java
 
 # Fluxo de chamada/referência entre as classes
