@@ -1,5 +1,7 @@
 package br.com.fiap.ez.fastfood.domain.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -24,18 +26,23 @@ public class Customer {
     @Column(name = "email", nullable = true)
     private String email;
     
+    @Column(name = "password", nullable = true)
+    @Length (min = 8, message="Senha precisa ter no mínimo 8 e maxímo de 15 caracteres")
+    private String password;
+    
 
 	public Customer() {
 		super();
 	}
 	
 
-	public Customer(Long id, String name, String cpf, String email) {
+	public Customer(Long id, String name, String cpf, String email, String password) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
 		this.email = email;
+		this.password = password;
 	}
 
 
@@ -69,6 +76,16 @@ public class Customer {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 

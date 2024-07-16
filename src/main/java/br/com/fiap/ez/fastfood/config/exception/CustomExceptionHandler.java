@@ -37,6 +37,8 @@ public class CustomExceptionHandler {
 	            status = HttpStatus.BAD_REQUEST;
 	        }else if(message.contains("Cliente já cadastrado")) {
 	        	status = HttpStatus.CONFLICT;
+	        }else if(message.contains("CPF ou senha errada.")){
+	        	status = HttpStatus.UNAUTHORIZED;
 	        }else { 
 	        	message = "Erro desconhecido";
 	        	status = HttpStatus.INTERNAL_SERVER_ERROR; // condicao padrao 
