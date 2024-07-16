@@ -1,5 +1,6 @@
 # Estrutura
 br.com.fiap.ez.fastfood
+```
 ├── adapters
 │ ├── in
 │ │ ├── controller
