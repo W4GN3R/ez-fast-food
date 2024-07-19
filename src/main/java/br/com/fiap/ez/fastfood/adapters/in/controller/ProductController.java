@@ -41,9 +41,7 @@ public class ProductController {
 
 		try {
 			Product createdProduct = productService.createProduct(product);
-			ProductDTO productDTO = new ProductDTO(createdProduct.getId(), createdProduct.getName(), createdProduct.getDescription(), createdProduct.getCategory(),
-					createdProduct.getPrice());
-			return new ResponseEntity<>(productDTO, HttpStatus.CREATED);
+			return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		} catch (BusinessException e) {
@@ -55,16 +53,11 @@ public class ProductController {
 	@GetMapping(path = "/list-all", produces = "application/json")
 	public ResponseEntity<?> listProducts() {
 		try {
-			List<Product> products = productService.listProducts();
-			List<ProductDTO> productsDTO = new ArrayList<>();
-			for (Product product : products) {
-				ProductDTO productDTO = new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getCategory(), product.getPrice());
-				productsDTO.add(productDTO);
-			}
-			return new ResponseEntity<>(productsDTO, HttpStatus.OK);
-		} catch (BusinessException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-		}
+            List<Product> products = productService.listProducts();
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        } catch (BusinessException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
 	}
 
 }
