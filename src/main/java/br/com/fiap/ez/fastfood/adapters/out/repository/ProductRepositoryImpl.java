@@ -1,6 +1,7 @@
 package br.com.fiap.ez.fastfood.adapters.out.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -33,5 +34,15 @@ public class ProductRepositoryImpl implements ProductRepository {
 	public List<Product> findAll() {
 		return productJpaRepository.findAll();
 	}
+
+	@Override
+    public Optional<Product> findById(Long id) {
+        return productJpaRepository.findById(id);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        productJpaRepository.deleteById(id);
+    }
 
 }

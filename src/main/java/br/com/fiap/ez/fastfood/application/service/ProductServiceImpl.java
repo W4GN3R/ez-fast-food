@@ -31,5 +31,16 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> listProducts() {
         return productRepository.findAll();
     }
+	
+	@Override
+    public Product findById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    @Override
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
+    }
 
 }
