@@ -55,4 +55,14 @@ public class CategoryController {
         categoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();
     }
+	
+	
+	@Operation(summary = "Modify Category by ID")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Categoria alterada"),
+	@ApiResponse(responseCode = "400", description = "Invalid input data") })
+	@PutMapping("/{id}")
+    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category category) {
+        Category updatedCategory = categoryService.updateCategory(id, category);
+        return ResponseEntity.ok(updatedCategory);
+    }
 }
