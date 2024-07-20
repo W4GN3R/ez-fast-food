@@ -1,4 +1,4 @@
-package br.com.fiap.ez.fastfood.adapters.in.controller;
+package br.com.fiap.ez.fastfood.config.exception;
 
 public class ErrorResponse {
 
