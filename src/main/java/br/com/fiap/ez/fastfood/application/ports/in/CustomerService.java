@@ -12,5 +12,6 @@ public interface CustomerService {
     List<Customer> listCustomers();
     Customer deleteCustomerByCpf(String cpf);
     Customer findCustomerByCpf (String cpf);
-    Customer authenticate(String cpf, String password);
+    //Customer authenticate(String cpf, String password);
+    Customer authenticate(String cpf);
 }

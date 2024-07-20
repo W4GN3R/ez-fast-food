@@ -113,7 +113,8 @@ public class CustomerController {
 	    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
 	        
 	        try {
-	        	Customer customer = customerService.authenticate(loginDTO.getCpf(), loginDTO.getPassword());
+	        	//Customer customer = customerService.authenticate(loginDTO.getCpf(), loginDTO.getPassword());
+	        	Customer customer = customerService.authenticate(loginDTO.getCpf());
 	        	CustomerDTO customerDTO = new CustomerDTO(customer.getCpf(), customer.getName(), customer.getEmail());
 	        	return new ResponseEntity<>(customerDTO, HttpStatus.OK);
 	            	

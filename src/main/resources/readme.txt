@@ -23,10 +23,14 @@ br.com.fiap.ez.fastfood
 ├── config
 │   └── exception
 │       └── CustomExceptionHandler.java
+│   └── security
+│       └── SecurityConfig.java
 ├── domain
 │   └── model
 │       └── Customer.java
 ├── APIApplication.java
+├── OpenApiConfig.java
+
 
 
 # Fluxo de chamada/referência entre as classes

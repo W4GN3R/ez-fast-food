@@ -7,44 +7,43 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 @Entity
-@Schema(name= "ez_fastfood")
+@Schema(name = "ez_fastfood")
 @Table(name = "customers")
 public class Customer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+	@Column(name = "name", nullable = false)
+	private String name;
 
-    
-    @Column(name = "cpf", nullable = true)
-    @Pattern(regexp = "^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}$", message = "Formato do CPF inválido")
-    private String cpf;
+	@Column(name = "cpf", nullable = true)
+	@Pattern(regexp = "^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}$", message = "Formato do CPF inválido")
+	private String cpf;
 
-    @Column(name = "email", nullable = true)
-    private String email;
-    
-    @Column(name = "password", nullable = true)
-    @Length (min = 8, message="Senha precisa ter no mínimo 8 e maxímo de 15 caracteres")
-    private String password;
-    
+	@Column(name = "email", nullable = true)
+	private String email;
+
+	/*
+	 * @Column(name = "password", nullable = true)
+	 * 
+	 * @Length (min = 8,
+	 * message="Senha precisa ter no mínimo 8 e maxímo de 15 caracteres") private
+	 * String password;
+	 */
 
 	public Customer() {
 		super();
 	}
-	
 
-	public Customer(Long id, String name, String cpf, String email, String password) {
+	public Customer(Long id, String name, String cpf, String email) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
 		this.email = email;
-		this.password = password;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -78,16 +77,4 @@ public class Customer {
 		this.email = email;
 	}
 
-
-	public String getPassword() {
-		return password;
-	}
-
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-
-    
 }
