@@ -5,13 +5,12 @@ br.com.fiap.ez.fastfood
 │   ├── in
 │   │   └── controller
 │   │       ├── CustomerController.java
-│   │       └── ErrorResponse.java
 │   └── out
 │       └── repository
 │           ├── CustomerRepositoryImpl.java
 │           └── JpaCustomerRepository.java
 ├── application
-│   ├── port
+│   ├── ports
 │   │   ├── in
 │   │   │   └── CustomerService.java
 │   │   └── out
@@ -23,14 +22,14 @@ br.com.fiap.ez.fastfood
 ├── config
 │   └── exception
 │       └── CustomExceptionHandler.java
+|        └── ErrorResponse.java
 │   └── security
 │       └── SecurityConfig.java
+│        OpenApiConfig.java
 ├── domain
 │   └── model
 │       └── Customer.java
 ├── APIApplication.java
-├── OpenApiConfig.java
-
 
 
 # Fluxo de chamada/referência entre as classes

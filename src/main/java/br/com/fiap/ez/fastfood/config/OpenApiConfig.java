@@ -1,4 +1,4 @@
-package br.com.fiap.ez.fastfood;
+package br.com.fiap.ez.fastfood.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

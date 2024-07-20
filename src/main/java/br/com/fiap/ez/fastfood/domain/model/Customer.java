@@ -76,5 +76,15 @@ public class Customer {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public boolean isCustomerValid(Customer customer) {
+		if (!customer.getName().equals("string") && !customer.getCpf().equals("string")
+				&& !customer.getEmail().equals("string")) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
 
 }

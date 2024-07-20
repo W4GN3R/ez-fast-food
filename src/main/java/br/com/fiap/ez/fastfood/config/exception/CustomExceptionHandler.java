@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import br.com.fiap.ez.fastfood.adapters.in.controller.ErrorResponse;
 
 @ControllerAdvice
 @RestController

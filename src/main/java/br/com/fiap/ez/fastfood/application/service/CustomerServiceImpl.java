@@ -30,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Customer createCustomer(Customer customer) {
-		if (customer != null && isCustomerValid(customer)) {
+		if (customer != null && customer.isCustomerValid(customer)) {
 			Customer existingCustomer = findCustomerByCpf(customer.getCpf());
 			if (existingCustomer == null) {
 				//customer.setPassword(passwordEncoder.encode(customer.getPassword()));
@@ -66,7 +66,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 		Customer existingCustomer = findCustomerByCpf(cpf);
 
-		if (existingCustomer != null && isCustomerValid(existingCustomer)) {
+		if (existingCustomer != null && updateCustomer.isCustomerValid(existingCustomer)) {
 
 			existingCustomer.setName(updateCustomer.getName());
 
@@ -116,18 +116,6 @@ public class CustomerServiceImpl implements CustomerService {
 		}else {
 			throw new BusinessException("CPF ou senha errada.");
 		}
-	}
-	
-
-	/* metodos adicionais */
-	private boolean isCustomerValid(Customer customer) {
-		if (!customer.getName().equals("string") && !customer.getCpf().equals("string")
-				&& !customer.getEmail().equals("string")) {
-			return true;
-		} else {
-			return false;
-		}
-
 	}
 
 }
