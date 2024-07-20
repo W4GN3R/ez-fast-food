@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
@@ -15,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.fiap.ez.fastfood.application.dto.CustomerDTO;
+import br.com.fiap.ez.fastfood.application.dto.LoginDTO;
 import br.com.fiap.ez.fastfood.application.ports.in.CustomerService;
 import br.com.fiap.ez.fastfood.config.exception.BusinessException;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
@@ -108,5 +108,20 @@ public class CustomerController {
 		}
 
 	}
+	
+	 @PostMapping("/login")
+	    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
+	        
+	        try {
+	        	//Customer customer = customerService.authenticate(loginDTO.getCpf(), loginDTO.getPassword());
+	        	Customer customer = customerService.authenticate(loginDTO.getCpf());
+	        	CustomerDTO customerDTO = new CustomerDTO(customer.getCpf(), customer.getName(), customer.getEmail());
+	        	return new ResponseEntity<>(customerDTO, HttpStatus.OK);
+	            	
+	        }catch (BusinessException e){
+	        	return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+	        }
+	  
+	    }
 
 }

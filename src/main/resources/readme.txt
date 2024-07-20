@@ -16,17 +16,21 @@ br.com.fiap.ez.fastfood
 │   │   │   └── CustomerService.java
 │   │   └── out
 │   │       └── CustomerRepository.java
-│   └── service
-│       └── CustomerServiceImpl.java
+│   ├── service
+│   │   └── CustomerServiceImpl.java
+│   └── dto
+│       └── CustomerDTO.java
 ├── config
 │   └── exception
 │       └── CustomExceptionHandler.java
+│   └── security
+│       └── SecurityConfig.java
 ├── domain
 │   └── model
 │       └── Customer.java
-├── dto
-│   └── CustomerDTO.java
 ├── APIApplication.java
+├── OpenApiConfig.java
+
 
 
 # Fluxo de chamada/referência entre as classes

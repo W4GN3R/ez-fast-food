@@ -3,7 +3,6 @@ package br.com.fiap.ez.fastfood.application.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,12 +11,19 @@ import br.com.fiap.ez.fastfood.application.ports.out.CustomerRepository;
 import br.com.fiap.ez.fastfood.config.exception.BusinessException;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
 
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
 	private final CustomerRepository customerRepository;
+	//private final PasswordEncoder passwordEncoder;
 
 	@Autowired
+	/*public CustomerServiceImpl(CustomerRepository customerRepository, PasswordEncoder passwordEncoder) {
+		this.customerRepository = customerRepository;
+		this.passwordEncoder = passwordEncoder;
+	}*/
+	
 	public CustomerServiceImpl(CustomerRepository customerRepository) {
 		this.customerRepository = customerRepository;
 	}
@@ -27,6 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
 		if (customer != null && isCustomerValid(customer)) {
 			Customer existingCustomer = findCustomerByCpf(customer.getCpf());
 			if (existingCustomer == null) {
+				//customer.setPassword(passwordEncoder.encode(customer.getPassword()));
 				return customerRepository.save(customer);
 			} else {
 				throw new BusinessException("Cliente já cadastrado");
@@ -84,6 +91,33 @@ public class CustomerServiceImpl implements CustomerService {
 			return null;
 		}
 	}
+
+	/**
+	 * Metodo de autenticacao (cpf e senha) com seguranca implementada
+	 * Comentado para utilizacao futura
+	 *
+	 */
+	@Override
+	/*public Customer authenticate(String cpf, String password) {
+		Customer customer = customerRepository.findCustomerByCpf(cpf);
+
+		if (customer != null && passwordEncoder.matches(password, customer.getPassword())) {
+
+			return customer;
+		}else {
+			throw new BusinessException("CPF ou senha errada.");
+		}
+	}*/
+	
+	public Customer authenticate(String cpf) {
+		Customer customer = customerRepository.findCustomerByCpf(cpf);
+		if (customer != null) {
+			return customer;
+		}else {
+			throw new BusinessException("CPF ou senha errada.");
+		}
+	}
+	
 
 	/* metodos adicionais */
 	private boolean isCustomerValid(Customer customer) {
