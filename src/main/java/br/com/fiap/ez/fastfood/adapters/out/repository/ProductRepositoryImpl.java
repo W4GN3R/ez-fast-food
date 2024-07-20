@@ -42,5 +42,15 @@ public class ProductRepositoryImpl implements ProductRepository {
     public void deleteById(Long id) {
         productJpaRepository.deleteById(id);
     }
+    
+    @Override
+    public List<Product> findByCategoryId(Long categoryId) {
+        return productJpaRepository.findByCategoryId(categoryId);
+    }
+    
+    @Override
+    public boolean existsByCategoryId(Long categoryId) {
+        return productJpaRepository.existsByCategoryId(categoryId);
+    }
 
 }

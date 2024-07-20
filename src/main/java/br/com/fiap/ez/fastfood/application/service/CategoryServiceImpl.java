@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import br.com.fiap.ez.fastfood.application.ports.in.CategoryService;
 import br.com.fiap.ez.fastfood.application.ports.out.CategoryRepository;
+import br.com.fiap.ez.fastfood.application.ports.out.ProductRepository;
 import br.com.fiap.ez.fastfood.domain.model.Category;
+import br.com.fiap.ez.fastfood.domain.model.Product;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -15,8 +17,13 @@ public class CategoryServiceImpl implements CategoryService {
 	@Autowired
     private CategoryRepository categoryRepository;
 	
-	public CategoryServiceImpl(CategoryRepository categoryRepository) {
+	@Autowired
+    private ProductRepository productRepository;
+	
+	@Autowired
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ProductRepository productRepository) {
         this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -37,11 +44,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(Long id) {
-        if (categoryRepository.existsById(id)) {
-            categoryRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Categoria não encontrada");
+        boolean hasProducts = productRepository.existsByCategoryId(id);
+        if (hasProducts) {
+            throw new RuntimeException("Categoria não pode ser excluída porque há produtos vinculados a ela.");
         }
+        categoryRepository.deleteById(id);
     }
     
     @Override
@@ -50,5 +57,17 @@ public class CategoryServiceImpl implements CategoryService {
         existingCategory.setName(category.getName());
         return categoryRepository.save(existingCategory);
     }
+
+	@Override
+	public List<Product> findByCategoryId(Long categoryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean existsByCategoryId(Long categoryId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

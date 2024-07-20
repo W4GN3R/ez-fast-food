@@ -51,9 +51,13 @@ public class CategoryController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Categoria removida"),
 	@ApiResponse(responseCode = "400", description = "Invalid input data") })
 	@DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
-        categoryService.deleteCategory(id);
-        return ResponseEntity.noContent().build();
+	public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
+        try {
+            categoryService.deleteCategory(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 	
 	
