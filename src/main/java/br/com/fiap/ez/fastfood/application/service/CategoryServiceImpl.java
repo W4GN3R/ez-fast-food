@@ -17,13 +17,13 @@ public class CategoryServiceImpl implements CategoryService {
 	@Autowired
     private CategoryRepository categoryRepository;
 	
-	@Autowired
-    private ProductRepository productRepository;
+	//@Autowired
+    //private ProductRepository productRepository;
 	
 	@Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, ProductRepository productRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
-        this.productRepository = productRepository;
+       // this.productRepository = productRepository;
     }
 
     @Override
@@ -44,10 +44,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(Long id) {
-        boolean hasProducts = productRepository.existsByCategoryId(id);
+        boolean hasProducts = existsByCategoryId(id);
         if (hasProducts) {
+        	System.out.println("entrei no if");
             throw new RuntimeException("Categoria não pode ser excluída porque há produtos vinculados a ela.");
         }
+        System.out.println("continuei após if");
         categoryRepository.deleteById(id);
     }
     
@@ -67,6 +69,8 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public boolean existsByCategoryId(Long categoryId) {
 		// TODO Auto-generated method stub
+		
+		System.out.println("ENTREI NO METODO EXISTS");
 		return false;
 	}
 
