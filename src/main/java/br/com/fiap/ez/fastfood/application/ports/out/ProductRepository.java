@@ -3,9 +3,12 @@ package br.com.fiap.ez.fastfood.application.ports.out;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import br.com.fiap.ez.fastfood.domain.model.Customer;
 import br.com.fiap.ez.fastfood.domain.model.Product;
 
+@Repository
 public interface ProductRepository {
 
 	Product save(Product product);

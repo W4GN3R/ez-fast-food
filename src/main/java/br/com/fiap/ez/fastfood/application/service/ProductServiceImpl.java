@@ -7,15 +7,21 @@ import org.springframework.stereotype.Service;
 
 import br.com.fiap.ez.fastfood.application.dto.ProductDTO;
 import br.com.fiap.ez.fastfood.application.ports.in.ProductService;
+import br.com.fiap.ez.fastfood.application.ports.out.CategoryRepository;
 import br.com.fiap.ez.fastfood.application.ports.out.ProductRepository;
 import br.com.fiap.ez.fastfood.config.exception.BusinessException;
+import br.com.fiap.ez.fastfood.domain.model.Category;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
 import br.com.fiap.ez.fastfood.domain.model.Product;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 	
-	private final ProductRepository productRepository;
+	@Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 	
 	@Autowired
 	public ProductServiceImpl(ProductRepository productRepository) {
@@ -24,7 +30,13 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
     public Product createProduct(Product product) {
-		return productRepository.save(product);
+        if (product.getCategory() == null || product.getCategory().getId() == null) {
+            throw new IllegalArgumentException("Categoria deve ser preenchida");
+        }
+        Category category = categoryRepository.findById(product.getCategory().getId())
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+        product.setCategory(category);
+        return productRepository.save(product);
     }
 	
 	@Override
@@ -35,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
     public Product findById(Long id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
     }
 
     @Override

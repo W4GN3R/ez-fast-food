@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import br.com.fiap.ez.fastfood.application.ports.out.ProductRepository;
 import br.com.fiap.ez.fastfood.domain.model.Product;
@@ -20,7 +19,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 	@PersistenceContext
     private EntityManager entityManager;
 	
-	@Autowired
 	public ProductRepositoryImpl(ProductJpaRepository productJpaRepository) {
 		this.productJpaRepository = productJpaRepository;
 	}

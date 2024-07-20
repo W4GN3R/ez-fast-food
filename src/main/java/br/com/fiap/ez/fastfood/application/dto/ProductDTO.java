@@ -1,34 +1,12 @@
 package br.com.fiap.ez.fastfood.application.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import br.com.fiap.ez.fastfood.domain.model.Category;
-
 public class ProductDTO {
 	
-	@JsonProperty("id")
 	private Long id;
-	
-	@JsonProperty("name")
-	private String name;
-	
-	@JsonProperty("description")
-	private String description;
-	
-	@JsonProperty("category")
-	private Category category;
-	
-	@JsonProperty("price")
-	private double price;
-	
-	public ProductDTO(Long id, String name, String description, Category category, double price) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.category = category;
-		this.price = price;
-	}
+    private Long categoryId;
+    private String description;
+    private String name;
+    private Double price;
 	
 	public Long getId() {
 		return id;
@@ -54,12 +32,12 @@ public class ProductDTO {
 		this.description = description;
 	}
 
-	public Category getCategory() {
-		return category;
+	public Long getCategoryId() {
+		return categoryId;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public double getPrice() {
@@ -69,7 +47,4 @@ public class ProductDTO {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	
-	
-
 }
