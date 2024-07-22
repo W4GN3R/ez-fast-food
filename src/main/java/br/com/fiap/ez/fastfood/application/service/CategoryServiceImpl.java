@@ -17,13 +17,13 @@ public class CategoryServiceImpl implements CategoryService {
 	@Autowired
     private CategoryRepository categoryRepository;
 	
-	//@Autowired
-    //private ProductRepository productRepository;
+	@Autowired
+    private ProductRepository productRepository;
 	
 	@Autowired
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
-       // this.productRepository = productRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -60,18 +60,20 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.save(existingCategory);
     }
 
-	@Override
-	public List<Product> findByCategoryId(Long categoryId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<Product> findByCategoryId(Long categoryId) {
+        return productRepository.findByCategoryId(categoryId);
+    }
 
-	@Override
-	public boolean existsByCategoryId(Long categoryId) {
-		// TODO Auto-generated method stub
-		
-		System.out.println("ENTREI NO METODO EXISTS");
-		return false;
-	}
+    @Override
+    public boolean existsByCategoryId(Long categoryId) {
+        return productRepository.existsByCategoryId(categoryId);
+    }
+    
+    @Override
+    public Category getCategoryByName(String name) {
+        return categoryRepository.findByName(name)
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+    }
 
 }

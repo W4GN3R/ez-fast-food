@@ -87,5 +87,16 @@ public class ProductController {
         Product updatedProduct = productService.updateProduct(id, product);
         return ResponseEntity.ok(updatedProduct);
     }
+	
+	@Operation(summary = "Find Products by Category Name")
+	@GetMapping("/category/{categoryName}")
+	public ResponseEntity<?> getProductsByCategoryName(@PathVariable String categoryName) {
+	    List<Product> products = productService.findProductsByCategoryName(categoryName);
+	    if (products == null) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                .body("Nenhum produto encontrado na Categoria: " + categoryName);
+	    }
+	    return ResponseEntity.ok(products);
+	}
 
 }
