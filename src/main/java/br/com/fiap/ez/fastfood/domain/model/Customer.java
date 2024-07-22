@@ -8,7 +8,7 @@ import jakarta.validation.constraints.*;
 
 @Entity
 @Schema(name = "ez_fastfood")
-@Table(name = "customers")
+@Table(name = "customer")
 public class Customer {
 
 	@Id
