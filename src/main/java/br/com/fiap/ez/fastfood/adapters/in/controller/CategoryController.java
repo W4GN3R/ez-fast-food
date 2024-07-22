@@ -69,4 +69,5 @@ public class CategoryController {
         Category updatedCategory = categoryService.updateCategory(id, category);
         return ResponseEntity.ok(updatedCategory);
     }
+
 }

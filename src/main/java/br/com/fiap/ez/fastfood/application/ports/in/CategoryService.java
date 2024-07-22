@@ -12,6 +12,7 @@ public interface CategoryService {
     Category findById(Long id);
     void deleteCategory(Long id);
     Category updateCategory(Long id, Category category);
+    Category getCategoryByName(String name);
     List<Product> findByCategoryId(Long categoryId);
     boolean existsByCategoryId(Long categoryId);
 }

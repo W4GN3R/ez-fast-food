@@ -1,17 +1,14 @@
 package br.com.fiap.ez.fastfood.application.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import br.com.fiap.ez.fastfood.application.dto.ProductDTO;
 import br.com.fiap.ez.fastfood.application.ports.in.ProductService;
 import br.com.fiap.ez.fastfood.application.ports.out.CategoryRepository;
 import br.com.fiap.ez.fastfood.application.ports.out.ProductRepository;
-import br.com.fiap.ez.fastfood.config.exception.BusinessException;
 import br.com.fiap.ez.fastfood.domain.model.Category;
-import br.com.fiap.ez.fastfood.domain.model.Customer;
 import br.com.fiap.ez.fastfood.domain.model.Product;
 
 @Service
@@ -23,7 +20,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 	
-	@Autowired
 	public ProductServiceImpl(ProductRepository productRepository) {
 		this.productRepository = productRepository;
 	}
@@ -63,6 +59,19 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setPrice(product.getPrice());
         existingProduct.setCategory(product.getCategory());
         return productRepository.save(existingProduct);
+    }
+    
+    @Override
+    public List<Product> findProductsByCategoryName(String categoryName) {
+        categoryName = categoryName.toUpperCase();
+        Optional<Category> optionalCategory = categoryRepository.findByName(categoryName);
+        if (optionalCategory.isEmpty()) {
+            return null;
+        }
+        
+        Category category = optionalCategory.get();
+        List<Product> products = productRepository.findByCategoryId(category.getId());
+        return products.isEmpty() ? null : products;
     }
 
 }

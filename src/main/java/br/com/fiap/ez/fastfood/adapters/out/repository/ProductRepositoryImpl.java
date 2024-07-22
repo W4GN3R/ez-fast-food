@@ -3,7 +3,6 @@ package br.com.fiap.ez.fastfood.adapters.out.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import br.com.fiap.ez.fastfood.application.ports.out.ProductRepository;
