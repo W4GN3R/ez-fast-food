@@ -91,7 +91,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.JoinColumn;
 
 @Entity
-@Table(name = "products")
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

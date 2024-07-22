@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import br.com.fiap.ez.fastfood.domain.model.Customer;
-
+/**
+ Responsavel por definir os metodos de logica de negocio
+ */
 public interface CustomerService {
 
 	Customer createCustomer(Customer customer);
