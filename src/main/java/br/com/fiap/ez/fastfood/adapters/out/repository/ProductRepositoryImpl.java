@@ -51,5 +51,10 @@ public class ProductRepositoryImpl implements ProductRepository {
     public boolean existsByCategoryId(Long categoryId) {
         return productJpaRepository.existsByCategoryId(categoryId);
     }
+    
+    @Override
+    public Optional<Product> findByName(String name) {
+        return productJpaRepository.findByName(name);
+    }
 
 }

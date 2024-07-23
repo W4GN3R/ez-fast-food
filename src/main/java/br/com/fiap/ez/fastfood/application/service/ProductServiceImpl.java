@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import br.com.fiap.ez.fastfood.application.dto.ProductDTO;
 import br.com.fiap.ez.fastfood.application.ports.in.ProductService;
 import br.com.fiap.ez.fastfood.application.ports.out.CategoryRepository;
 import br.com.fiap.ez.fastfood.application.ports.out.ProductRepository;
@@ -27,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Product createProduct(Product product) {
 	    if (product.getCategory() == null || product.getCategory().getName() == null) {
-	        throw new IllegalArgumentException("Category name must be provided");
+	        throw new IllegalArgumentException("Necessário informar a categoria");
 	    }
 	    String categoryName = product.getCategory().getName().toUpperCase();
 	    Category category = categoryRepository.findByName(categoryName)
@@ -50,19 +52,32 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
     }
+	
+	@Override
+    public void deleteProduct(String name) {
+        Product product = productRepository.findByName(name)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+        productRepository.deleteById(product.getId());
+    }
 
     @Override
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
-    }
-    
-    @Override
-    public Product updateProduct(Long id, Product product) {
-        Product existingProduct = findById(id);
-        existingProduct.setName(product.getName());
-        existingProduct.setDescription(product.getDescription());
-        existingProduct.setPrice(product.getPrice());
-        existingProduct.setCategory(product.getCategory());
+    public Product updateProduct(String name, ProductDTO productDTO) {
+        Product existingProduct = productRepository.findByName(name)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+        existingProduct.setName(productDTO.getName());
+        existingProduct.setDescription(productDTO.getDescription());
+        existingProduct.setPrice(productDTO.getPrice());
+
+        String categoryName = productDTO.getCategoryName().toUpperCase();
+        Category category = categoryRepository.findByName(categoryName)
+                .orElseGet(() -> {
+                    Category newCategory = new Category();
+                    newCategory.setName(categoryName);
+                    return categoryRepository.save(newCategory);
+                });
+        existingProduct.setCategory(category);
+
         return productRepository.save(existingProduct);
     }
     
