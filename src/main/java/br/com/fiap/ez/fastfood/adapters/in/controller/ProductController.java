@@ -38,14 +38,14 @@ public class ProductController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Produto criado"),
 	@ApiResponse(responseCode = "400", description = "Invalid input data") })
 	@PostMapping(path = "/create-new", produces = "application/json")
-    public ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDTO) {
-        Category category = new Category();
-        category.setId(productDTO.getCategoryId());
-
+	public ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDTO) {
         Product product = new Product();
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
+
+        Category category = new Category();
+        category.setName(productDTO.getCategoryName());
         product.setCategory(category);
 
         Product createdProduct = productService.createProduct(product);

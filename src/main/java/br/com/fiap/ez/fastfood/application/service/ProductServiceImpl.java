@@ -25,15 +25,20 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-    public Product createProduct(Product product) {
-        if (product.getCategory() == null || product.getCategory().getId() == null) {
-            throw new IllegalArgumentException("Categoria deve ser preenchida");
-        }
-        Category category = categoryRepository.findById(product.getCategory().getId())
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
-        product.setCategory(category);
-        return productRepository.save(product);
-    }
+	public Product createProduct(Product product) {
+	    if (product.getCategory() == null || product.getCategory().getName() == null) {
+	        throw new IllegalArgumentException("Category name must be provided");
+	    }
+	    String categoryName = product.getCategory().getName().toUpperCase();
+	    Category category = categoryRepository.findByName(categoryName)
+	            .orElseGet(() -> {
+	                Category newCategory = new Category();
+	                newCategory.setName(categoryName);
+	                return categoryRepository.save(newCategory);
+	            });
+	    product.setCategory(category);
+	    return productRepository.save(product);
+	}
 	
 	@Override
     public List<Product> listProducts() {
