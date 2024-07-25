@@ -42,6 +42,13 @@ CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.CATEGORY (
     name VARCHAR(255)
 );
 
+INSERT INTO EZ_FASTFOOD.CATEGORY (name)
+VALUES 
+('LANCHE'),
+('BEBIDA'),
+('ACOMPANHAMENTO'),
+('SOBREMESA');
+
 
 CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.PRODUCT (
     id BIGSERIAL PRIMARY KEY,
@@ -52,13 +59,29 @@ CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.PRODUCT (
     FOREIGN KEY (category_id) REFERENCES Category(ID)
 );
 
+INSERT INTO EZ_FASTFOOD.PRODUCT (name,description,price, category_id)
+VALUES 
+('LANCHE'),
+('BEBIDA'),
+('ACOMPANHAMENTO'),
+('SOBREMESA');
+
+{
+    "name": "Lanche Teste",
+    "description": "Teste",
+    "price": 25.00,
+    "categoryName": "LANCHE"
+}
+
 CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.ORDER (
-    id BIGSERIAL PRIMARY KEY,
+    ID INT PRIMARY KEY,
     customer_id INT NULL,
-    date DATE,
-    total_price DECIMAL,
+    order_time TIMESTAMP,
+    total_price DECIMAL(10, 2),
     status VARCHAR(50),
-    FOREIGN KEY (customer_id) REFERENCES Customer(ID)
+    customer_name VARCHAR(255),
+    completed_time TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES Customers(ID)
 );
 
 CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.ORDERITEM (
