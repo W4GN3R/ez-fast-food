@@ -32,10 +32,10 @@ public class ProductRepositoryImpl implements ProductRepository {
 		return productJpaRepository.findAll();
 	}
 
-	@Override
-    public Optional<Product> findById(Long id) {
-        return productJpaRepository.findById(id);
-    }
+	/*
+	 * @Override public Product findById(Long id) { return
+	 * productJpaRepository.findById(id); }
+	 */
 
     @Override
     public void deleteById(Long id) {
@@ -51,5 +51,11 @@ public class ProductRepositoryImpl implements ProductRepository {
     public boolean existsByCategoryId(Long categoryId) {
         return productJpaRepository.existsByCategoryId(categoryId);
     }
+
+	@Override
+	public Product findById(Long id) {
+		return productJpaRepository.findProductById(id);
+	}
+
 
 }

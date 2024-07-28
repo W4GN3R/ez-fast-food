@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import br.com.fiap.ez.fastfood.application.ports.in.ProductService;
 import br.com.fiap.ez.fastfood.application.ports.out.CategoryRepository;
 import br.com.fiap.ez.fastfood.application.ports.out.ProductRepository;
+import br.com.fiap.ez.fastfood.config.exception.BusinessException;
 import br.com.fiap.ez.fastfood.domain.model.Category;
 import br.com.fiap.ez.fastfood.domain.model.Product;
 
@@ -42,8 +43,13 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
     public Product findById(Long id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+		Product product = productRepository.findById(id);
+		
+		if(product!=null) {
+			return product;
+		}else {
+			throw new BusinessException("Produto não encontrado");
+		}
     }
 
     @Override
