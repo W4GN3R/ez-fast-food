@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.ORDER (
     customer_id INT NULL,
     order_time TIMESTAMP,
     total_price DECIMAL(10, 2),
-    status VARCHAR(50),
+    order_status VARCHAR(50) NULL,
     customer_name VARCHAR(255),
     completed_time TIMESTAMP,
     FOREIGN KEY (customer_id) REFERENCES Customers(ID)

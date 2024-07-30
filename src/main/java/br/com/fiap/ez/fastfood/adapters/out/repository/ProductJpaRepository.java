@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
 import br.com.fiap.ez.fastfood.domain.model.Product;
 
-@Repository
+//@Repository
 public interface ProductJpaRepository extends JpaRepository<Product, Long>{
 	List<Product> findByCategoryId(Long categoryId);
     boolean existsByCategoryId(Long categoryId);
