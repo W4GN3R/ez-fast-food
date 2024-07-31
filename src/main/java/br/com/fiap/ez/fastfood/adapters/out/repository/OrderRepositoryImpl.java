@@ -38,8 +38,7 @@ public class OrderRepositoryImpl implements OrderRepository {
 
 	@Override
 	public List<Order> listUnfinishedOrders() {
-		// TODO Auto-generated method stub
-		return null;
+		return orderJpaRepository.listUnfinishedOrders();
 	}
 
 	@Override

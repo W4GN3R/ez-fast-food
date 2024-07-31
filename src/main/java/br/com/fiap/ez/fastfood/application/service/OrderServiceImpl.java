@@ -90,7 +90,7 @@ public class OrderServiceImpl implements OrderService {
 			registeredOrder.setOrderItems(orderItems);
 			registeredOrder.calculateAndSetTotalPrice();
 			orderDTO.setTotalPrice(registeredOrder.getTotalPrice());
-			registeredOrder.setStatus(OrderStatus.RECEIVED);
+			//registeredOrder.setStatus(OrderStatus.RECEIVED);
 			orderRepository.save(registeredOrder);
 			
 			registerPayment(registeredOrder);
@@ -136,5 +136,20 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/*
+	 * private OrderDTO convertToOrderDTO(Order order) { List<OrderItemDTO>
+	 * orderItemsDTO = new ArrayList<>(); for (OrderItem item :
+	 * order.getOrderItems()) { OrderItemDTO itemDTO = new OrderItemDTO(
+	 * item.getProduct().getId(), item.getProduct().getName(), item.getQuantity(),
+	 * item.getPrice() ); orderItemsDTO.add(itemDTO); }
+	 * 
+	 * OrderDTO orderDTO = new OrderDTO( order.getOrderId(), order.getCustomerCpf(),
+	 * order.getCustomerName(), order.getOrderTime(), order.getCompletedTime(),
+	 * order.getTotalPrice(), order.getStatus(), orderItemsDTO );
+	 * 
+	 * orderDTO.setWaitedTime(calculateOrderWaitedTime(order.getOrderTime()));
+	 * return orderDTO; }
+	 */
 
 }

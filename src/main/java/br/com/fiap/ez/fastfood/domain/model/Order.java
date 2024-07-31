@@ -1,8 +1,13 @@
 package br.com.fiap.ez.fastfood.domain.model;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.time.Duration;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "`order`") // Syntax to avoid conflict with reserved names
@@ -129,5 +134,22 @@ public class Order {
             total += item.getQuantity() * item.getProduct().getPrice();
         }
         return total;
+    }
+    
+    public String calculateOrderWaitedTime() {
+    	LocalDateTime orderLocalDateTime = convertToLocalDateTime(orderTime);
+        LocalDateTime now = LocalDateTime.now();
+
+        Duration duration = Duration.between(orderLocalDateTime, now);
+        long hours = duration.toHours();
+        long minutes = duration.toMinutes() % 60;
+    	
+    	return String.format("%02d:%02d", hours, minutes);
+    }
+
+    private LocalDateTime convertToLocalDateTime(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
     }
 }

@@ -85,4 +85,20 @@ public class OrderController {
 		}
 
 	}
+	
+	/*
+	 * @Operation(summary = "List unfinished orders")
+	 * 
+	 * @GetMapping(path = "/list-unfinished-orders", produces = "application/json")
+	 * public ResponseEntity<?> listUnfinishedOrders() { try { List<Order> orders =
+	 * orderService.listUnfinishedOrders(); List<OrderDTO> ordersDTO = new
+	 * ArrayList<>(); for (Order order : orders) { OrderDTO orderDTO = new
+	 * OrderDTO(order.getId(), //order.getCustomer().getCpf(),
+	 * order.getCustomerName(), order.getOrderTime(), order.getCompletedTime(),
+	 * order.getTotalPrice(), order.getStatus()); ordersDTO.add(orderDTO); } return
+	 * new ResponseEntity<>(ordersDTO, HttpStatus.OK); } catch (BusinessException e)
+	 * { return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); }
+	 * 
+	 * }
+	 */
 }

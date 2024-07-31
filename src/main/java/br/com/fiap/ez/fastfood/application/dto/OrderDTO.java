@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.fiap.ez.fastfood.domain.model.OrderStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
@@ -19,6 +21,7 @@ public class OrderDTO {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonProperty("customer_cpf")
+	@Schema(description = "Customer CPF (optional)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
 	private String customerCpf;
 
 	@JsonProperty("customer_name")
@@ -27,17 +30,22 @@ public class OrderDTO {
 	@JsonProperty("order_time")
 	private Date orderTime;
 
+	@JsonIgnore
 	@JsonProperty("completed_time")
 	private Date completedTime;
 
 	@JsonProperty("total_price")
 	private Double totalPrice;
 
+	@JsonIgnore
 	@JsonProperty("status")
 	private OrderStatus status;
 
 	@JsonProperty("order_items")
 	private List<OrderItemDTO> orderItems;
+	
+	 @JsonProperty("waited_time")
+	 private String waitedTime;
 
 	public OrderDTO() {
 		// Default constructor
@@ -143,23 +151,24 @@ public class OrderDTO {
 		this.customerCpf = customerCpf;
 	}
 
-
-
-
 	public Long getOrderId() {
 		return orderId;
 	}
-
-
-
 
 	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
 	}
 
 
+	public String getWaitedTime() {
+		return waitedTime;
+	}
 
 
-	
+	public void setWaitedTime(String waitedTime) {
+		this.waitedTime = waitedTime;
+	}
+
+
 
 }
