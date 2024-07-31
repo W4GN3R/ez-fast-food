@@ -12,7 +12,8 @@ public interface ProductRepository {
 
 	Product save(Product product);
 	List<Product> findAll();
-	Optional<Product> findById(Long id);
+	//Optional<Product> findById(Long id);
+	Product findById(Long id);
     void deleteById(Long id);
     List<Product> findByCategoryId(Long categoryId);
     boolean existsByCategoryId(Long categoryId);
