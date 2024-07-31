@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 @Entity
-@Schema(name = "ez_fastfood")
 @Table(name = "customer")
 public class Customer {
 

@@ -20,8 +20,9 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
 	private final CustomerJpaRepository customerJpaRepository;
 	
-	@PersistenceContext
-    private EntityManager entityManager;
+	/*
+	 * @PersistenceContext private EntityManager entityManager;
+	 */
 
 	@Autowired
 	public CustomerRepositoryImpl(CustomerJpaRepository customerJpaRepository) {
