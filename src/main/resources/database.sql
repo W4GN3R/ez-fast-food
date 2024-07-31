@@ -1,6 +1,4 @@
-DROP TABLE IF EXISTS EZ_FASTFOOD.CUSTOMER;
 CREATE SCHEMA IF NOT EXISTS EZ_FASTFOOD;
-
 
 -- Sera utilizado futuramente quando for habilitar a camada de seguranca (login com cpf e senha)
 /*CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.CUSTOMERS(
@@ -100,5 +98,3 @@ CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.PAYMENT (
     FOREIGN KEY (order_id) REFERENCES Order(ID),
     FOREIGN KEY (customer_id) REFERENCES Customer(ID)
 );
-
-
