@@ -12,5 +12,5 @@ public interface OrderService {
 	Order findOrderById(Long id);
 	List<Order> listOrders();
 	Order updateOrderStatus(Long orderId, String status);
-	List<Order> listUnfinishedOrders();
+	List<OrderDTO> listUnfinishedOrders();
 }

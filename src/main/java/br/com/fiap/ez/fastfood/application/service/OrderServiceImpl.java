@@ -1,7 +1,12 @@
 package br.com.fiap.ez.fastfood.application.service;
 
 import java.util.List;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.stereotype.Service;
 
@@ -32,9 +37,6 @@ public class OrderServiceImpl implements OrderService {
 	private final ProductRepository productRepository;
 	private final PaymentRepository paymentRepository;
 	private final CustomerRepository customerRepository;
-	
-
-	
 
 	public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository,
 			PaymentRepository paymentRepository, CustomerRepository customerRepository) {
@@ -50,23 +52,21 @@ public class OrderServiceImpl implements OrderService {
 	public OrderDTO registerOrder(OrderDTO orderDTO) {
 
 		Order registeredOrder = new Order();
-		Customer customer =  customerRepository.findCustomerByCpf(orderDTO.getCustomerCpf());
-		
-		if(customer!= null) {
-			
+		Customer customer = customerRepository.findCustomerByCpf(orderDTO.getCustomerCpf());
+
+		if (customer != null) {
+
 			registeredOrder.setCustomer(customer);
 		}
 		registeredOrder.setCustomerName(orderDTO.getCustomerName());
 		registeredOrder.setOrderTime(orderDTO.getOrderTime());
 		registeredOrder.setCompletedTime(orderDTO.getCompletedTime());
 
-		
 		registeredOrder.setStatus(orderDTO.getStatus());
 
 		List<OrderItem> orderItems = new ArrayList<>();
 
 		if (orderDTO.getOrderItems() != null && !orderDTO.getOrderItems().isEmpty()) {
-			
 
 			for (OrderItemDTO item : orderDTO.getOrderItems()) {
 
@@ -86,13 +86,13 @@ public class OrderServiceImpl implements OrderService {
 				orderItem.setOrder(registeredOrder);
 				orderItems.add(orderItem);
 			}
-
+			registeredOrder.setOrderTime(new Date());
 			registeredOrder.setOrderItems(orderItems);
 			registeredOrder.calculateAndSetTotalPrice();
 			orderDTO.setTotalPrice(registeredOrder.getTotalPrice());
-			//registeredOrder.setStatus(OrderStatus.RECEIVED);
+			// registeredOrder.setStatus(OrderStatus.RECEIVED);
 			orderRepository.save(registeredOrder);
-			
+
 			registerPayment(registeredOrder);
 			return orderDTO;
 
@@ -114,21 +114,47 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> listUnfinishedOrders() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	private void registerPayment(Order order) {
+	public List<OrderDTO> listUnfinishedOrders() {
+		List<Order> orderList= orderRepository.listUnfinishedOrders();
+		List<OrderDTO> orderDTOList = new ArrayList<>();
 		
+		for (Order order: orderList) {
+			OrderDTO orderDTO = new OrderDTO();
+			
+			orderDTO.setCompletedTime(order.getCompletedTime());
+			orderDTO.setCustomerCpf(order.getCustomer() != null ? order.getCustomer().getCpf() : null);
+			orderDTO.setCustomerName(order.getCustomerName());
+			orderDTO.setOrderId(order.getId());
+			
+			List<OrderItemDTO> orderItemDTOs = new ArrayList<>();		
+			for (OrderItem orderItem : order.getOrderItems()) {
+			    OrderItemDTO orderItemDTO = new OrderItemDTO();
+			    orderItemDTO.setProductId(orderItem.getProduct().getId());
+			    orderItemDTO.setQuantity(orderItem.getQuantity());
+			    orderItemDTOs.add(orderItemDTO);
+			}
+			orderDTO.setOrderItems(orderItemDTOs);
+			orderDTO.setOrderTime(order.getOrderTime());
+			orderDTO.setStatus(order.getStatus());
+			orderDTO.setTotalPrice(order.getTotalPrice());
+			orderDTO.setWaitedTime(calculateOrderWaitedTime(order));
+			
+			orderDTOList.add(orderDTO);
+			
+		}
+		return orderDTOList;
+	}
+
+	private void registerPayment(Order order) {
+
 		Payment payment = new Payment();
 		payment.setOrder(order);
 		payment.setCustomer(order.getCustomer());
 		payment.setPaymentPrice(order.getTotalPrice());
 		payment.setPaymentStatus(PaymentStatus.PENDING);
-		
+
 		paymentRepository.save(payment);
-		
+
 	}
 
 	@Override
@@ -136,20 +162,20 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	/*
-	 * private OrderDTO convertToOrderDTO(Order order) { List<OrderItemDTO>
-	 * orderItemsDTO = new ArrayList<>(); for (OrderItem item :
-	 * order.getOrderItems()) { OrderItemDTO itemDTO = new OrderItemDTO(
-	 * item.getProduct().getId(), item.getProduct().getName(), item.getQuantity(),
-	 * item.getPrice() ); orderItemsDTO.add(itemDTO); }
-	 * 
-	 * OrderDTO orderDTO = new OrderDTO( order.getOrderId(), order.getCustomerCpf(),
-	 * order.getCustomerName(), order.getOrderTime(), order.getCompletedTime(),
-	 * order.getTotalPrice(), order.getStatus(), orderItemsDTO );
-	 * 
-	 * orderDTO.setWaitedTime(calculateOrderWaitedTime(order.getOrderTime()));
-	 * return orderDTO; }
-	 */
 
+
+	public String calculateOrderWaitedTime(Order order) {
+		LocalDateTime orderLocalDateTime = convertToLocalDateTime(order.getOrderTime());
+		LocalDateTime now = LocalDateTime.now();
+
+		Duration duration = Duration.between(orderLocalDateTime, now);
+		long hours = duration.toHours();
+		long minutes = duration.toMinutes() % 60;
+
+		return String.format("%02dh%02d", hours, minutes);
+	}
+
+	private LocalDateTime convertToLocalDateTime(Date dateToConvert) {
+		return dateToConvert.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+	}
 }

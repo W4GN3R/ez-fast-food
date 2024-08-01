@@ -136,20 +136,5 @@ public class Order {
         return total;
     }
     
-    public String calculateOrderWaitedTime() {
-    	LocalDateTime orderLocalDateTime = convertToLocalDateTime(orderTime);
-        LocalDateTime now = LocalDateTime.now();
 
-        Duration duration = Duration.between(orderLocalDateTime, now);
-        long hours = duration.toHours();
-        long minutes = duration.toMinutes() % 60;
-    	
-    	return String.format("%02d:%02d", hours, minutes);
-    }
-
-    private LocalDateTime convertToLocalDateTime(Date dateToConvert) {
-        return dateToConvert.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
-    }
 }
