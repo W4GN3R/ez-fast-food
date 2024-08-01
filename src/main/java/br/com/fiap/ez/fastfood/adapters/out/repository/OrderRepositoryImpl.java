@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import br.com.fiap.ez.fastfood.application.dto.OrderDTO;
 import br.com.fiap.ez.fastfood.application.ports.out.OrderRepository;
 import br.com.fiap.ez.fastfood.domain.model.Order;
 

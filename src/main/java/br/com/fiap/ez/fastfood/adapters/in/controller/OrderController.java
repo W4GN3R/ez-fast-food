@@ -23,8 +23,6 @@ import br.com.fiap.ez.fastfood.config.exception.BusinessException;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
 import br.com.fiap.ez.fastfood.domain.model.Order;
 
-
-
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
@@ -36,7 +34,7 @@ public class OrderController {
 		super();
 		this.orderService = orderService;
 	}
-	
+
 	@Operation(summary = "Register a new order")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Order registered"),
 			@ApiResponse(responseCode = "400", description = "Invalid input data") })
@@ -44,25 +42,24 @@ public class OrderController {
 	public ResponseEntity<?> registerOrder(@Valid @RequestBody OrderDTO orderDTO) {
 
 		try {
-			
-			
+
 			orderService.registerOrder(orderDTO);
-			
+
 			/*
 			 * Order orderDTO = new OrderDTO (registeredOrder.getCustomerName(),
 			 * registeredOrder.getOrderTime(), registeredOrder.getTotalPrice(),
 			 * registeredOrder.getStatus());
 			 */
-		
+
 			return new ResponseEntity<>(orderDTO, HttpStatus.CREATED);
-			
+
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		} catch (BusinessException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@Operation(summary = "List all orders")
 	@GetMapping(path = "/list-all", produces = "application/json")
 	public ResponseEntity<?> listOrders() {
@@ -70,12 +67,9 @@ public class OrderController {
 			List<Order> orders = orderService.listOrders();
 			List<OrderDTO> ordersDTO = new ArrayList<>();
 			for (Order order : orders) {
-				OrderDTO orderDTO = new OrderDTO(order.getId(), 
-						//order.getCustomer().getCpf(), 
-						order.getCustomerName(), 
-						order.getOrderTime(), 
-						order.getCompletedTime(),
-						order.getTotalPrice(), 
+				OrderDTO orderDTO = new OrderDTO(order.getId(),
+						// order.getCustomer().getCpf(),
+						order.getCustomerName(), order.getOrderTime(), order.getCompletedTime(), order.getTotalPrice(),
 						order.getStatus());
 				ordersDTO.add(orderDTO);
 			}
@@ -85,20 +79,26 @@ public class OrderController {
 		}
 
 	}
-	
-	/*
-	 * @Operation(summary = "List unfinished orders")
-	 * 
-	 * @GetMapping(path = "/list-unfinished-orders", produces = "application/json")
-	 * public ResponseEntity<?> listUnfinishedOrders() { try { List<Order> orders =
-	 * orderService.listUnfinishedOrders(); List<OrderDTO> ordersDTO = new
-	 * ArrayList<>(); for (Order order : orders) { OrderDTO orderDTO = new
-	 * OrderDTO(order.getId(), //order.getCustomer().getCpf(),
-	 * order.getCustomerName(), order.getOrderTime(), order.getCompletedTime(),
-	 * order.getTotalPrice(), order.getStatus()); ordersDTO.add(orderDTO); } return
-	 * new ResponseEntity<>(ordersDTO, HttpStatus.OK); } catch (BusinessException e)
-	 * { return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); }
-	 * 
-	 * }
-	 */
+
+	@Operation(summary = "List unfinished orders")
+
+	@GetMapping(path = "/list-unfinished-orders", produces = "application/json")
+	public ResponseEntity<?> listUnfinishedOrders() {
+		try {
+			/*
+			 * List<OrderDTO> ordersDTO = orderService.listUnfinishedOrders();
+			 * List<OrderDTO> list = new ArrayList<>(); for (OrderDTO order : list) {
+			 * OrderDTO orderDTO = new OrderDTO(order.getId(), //
+			 * order.getCustomer().getCpf(), order.getCustomerName(), order.getOrderTime(),
+			 * order.getCompletedTime(), order.getTotalPrice(), order.getStatus());
+			 * ordersDTO.add(orderDTO); }
+			 */
+			List<OrderDTO> ordersDTO = orderService.listUnfinishedOrders();
+			return new ResponseEntity<>(ordersDTO, HttpStatus.OK);
+		} catch (BusinessException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+
+	}
+
 }
