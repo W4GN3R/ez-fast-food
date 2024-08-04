@@ -25,14 +25,8 @@ services:
     ports:
       - "5432:5432"
     restart: always
-    networks:
-      - ez-fast-food-network
     volumes:
       - ./src/main/resources/database.sql:/docker-entrypoint-initdb.d/database.sql
 
 volumes:
   postgres-data:
-
-networks:
-  ez-fast-food-network:
-    driver: bridge
