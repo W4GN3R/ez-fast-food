@@ -15,10 +15,13 @@ FROM openjdk:17-jdk-alpine
 
 WORKDIR /app
 
-COPY --from=build /app/target/ez-fast-food.jar /app/ez-fast-food.jar
+# COPY --from=build /app/target/ez-fast-food.jar /app/ez-fast-food.jar
 
 # Copie o arquivo JAR gerado para o contêiner
 #COPY target/ez-fast-food.jar app.jar
+
+#COPY target/ez-fast-food.jar app.jar
+COPY app/target/ez-fast-food.jar ez-fast-food.jar
 
 # Exponha a porta em que a aplicação vai rodar
 EXPOSE 8080
