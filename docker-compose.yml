@@ -1,11 +1,10 @@
 version: '3.8'
 
 services:
+build: .
   app:
+   build: .
    container_name: ez-fast-food-app
-   build:
-    context: .
-    dockerfile: Dockerfile
    image: ez-fast-food:latest
    depends_on:
      - db
