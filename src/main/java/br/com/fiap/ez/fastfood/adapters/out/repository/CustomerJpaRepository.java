@@ -12,12 +12,12 @@ import br.com.fiap.ez.fastfood.domain.model.Customer;
 
 public interface CustomerJpaRepository extends JpaRepository<Customer, Long> {
 
-	@Query(nativeQuery = true, value = "SELECT * FROM CUSTOMER WHERE cpf = :cpf")
+	@Query(nativeQuery = true, value = "SELECT * FROM EZ_FASTFOOD.CUSTOMER WHERE cpf = :cpf")
 	Customer findCustomerByCpf(@Param("cpf") String cpf);
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "DELETE FROM CUSTOMER WHERE CPF = :cpf")
+	@Query(nativeQuery = true, value = "DELETE FROM EZ_FASTFOOD.CUSTOMER  WHERE CPF = :cpf")
 	void removeCustomerByCpf(@Param("cpf") String cpf);
 
 	/*
