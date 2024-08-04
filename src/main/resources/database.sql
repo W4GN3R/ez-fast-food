@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.PRODUCT (
     name VARCHAR(255),
     description TEXT,
     unit_price DECIMAL,
-    FOREIGN KEY (category_id) REFERENCES Category(ID)
+    FOREIGN KEY (category_id) REFERENCES CATEGORY(ID)
 );
 
 INSERT INTO EZ_FASTFOOD.PRODUCT (name,description,price, category_id)
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.ORDER (
     order_status VARCHAR(50) NULL,
     customer_name VARCHAR(255),
     completed_time TIMESTAMP,
-    FOREIGN KEY (customer_id) REFERENCES Customers(ID)
+    FOREIGN KEY (customer_id) REFERENCES CUSTOMER(ID)
 );
 
 CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.ORDERITEM (
@@ -84,8 +84,8 @@ CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.ORDERITEM (
     product_id INT,
     quantity INT,
     price DECIMAL,
-    FOREIGN KEY (order_id) REFERENCES Order(ID),
-    FOREIGN KEY (product_id) REFERENCES Product(ID)
+    FOREIGN KEY (order_id) REFERENCES ORDER(ID),
+    FOREIGN KEY (product_id) REFERENCES PRODUCT(ID)
 );
 
 CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.PAYMENT (
@@ -95,6 +95,6 @@ CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.PAYMENT (
     payment_date DATE NULL,
     payment_price DECIMAL,
     payment_status VARCHAR(50),
-    FOREIGN KEY (order_id) REFERENCES Order(ID),
-    FOREIGN KEY (customer_id) REFERENCES Customer(ID)
+    FOREIGN KEY (order_id) REFERENCES ORDER(ID),
+    FOREIGN KEY (customer_id) REFERENCES CUSTOMER(ID)
 );
