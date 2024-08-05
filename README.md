@@ -56,7 +56,6 @@ cd ez-fast-food
 Para iniciar a aplicação e o banco de dados PostgreSQL, execute o seguinte comando na raiz desse projeto:
 
 ```sh
-docker login **
 docker-compose up --build
 ```
 
