@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.ez.fastfood.application.ports.in.PaymentService;
 import br.com.fiap.ez.fastfood.config.exception.BusinessException;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import br.com.fiap.ez.fastfood.application.dto.PaymentDTO;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/payments")
+@Tag(name = "Payment Operations", description = "Operations related to order payment")
 public class PaymentController {
 
 	private final PaymentService paymentService;

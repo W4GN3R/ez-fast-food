@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import br.com.fiap.ez.fastfood.application.dto.CustomerDTO;
 import br.com.fiap.ez.fastfood.application.dto.OrderDTO;
@@ -25,6 +26,7 @@ import br.com.fiap.ez.fastfood.domain.model.Order;
 
 @RestController
 @RequestMapping("/api/orders")
+@Tag(name = "Order Operations", description = "Operations related to order")
 public class OrderController {
 
 	private final OrderService orderService;

@@ -19,84 +19,88 @@ import br.com.fiap.ez.fastfood.application.ports.in.ProductService;
 import br.com.fiap.ez.fastfood.config.exception.BusinessException;
 import br.com.fiap.ez.fastfood.domain.model.Category;
 import br.com.fiap.ez.fastfood.domain.model.Product;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/products")
+@Tag(name = "Product Operations", description = "Operations related to products")
 public class ProductController {
-	
+
 	@Autowired
-    private final ProductService productService;
-	
+	private final ProductService productService;
+
 	public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
-	
+		this.productService = productService;
+	}
+
 	@Operation(summary = "Create a new product")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Produto criado"),
-	@ApiResponse(responseCode = "400", description = "Invalid input data") })
+			@ApiResponse(responseCode = "400", description = "Invalid input data") })
 	@PostMapping(path = "/create-new", produces = "application/json")
 	public ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDTO) {
-        Product product = new Product();
-        product.setName(productDTO.getName());
-        product.setDescription(productDTO.getDescription());
-        product.setPrice(productDTO.getPrice());
+		Product product = new Product();
+		product.setName(productDTO.getName());
+		product.setDescription(productDTO.getDescription());
+		product.setPrice(productDTO.getPrice());
 
-        Category category = new Category();
-        category.setName(productDTO.getCategoryName());
-        product.setCategory(category);
+		Category category = new Category();
+		category.setName(productDTO.getCategoryName());
+		product.setCategory(category);
 
-        Product createdProduct = productService.createProduct(product);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
-    }
+		Product createdProduct = productService.createProduct(product);
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+	}
+
+	@Operation(summary = "Modify Product by name")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Produto alterado"),
+			@ApiResponse(responseCode = "400", description = "Invalid input data") })
+	@PutMapping("update-by-name/{name}")
+	public ResponseEntity<Product> updateProductByName(@PathVariable String name, @RequestBody ProductDTO productDTO) {
+		Product updatedProduct = productService.updateProduct(name, productDTO);
+		return ResponseEntity.ok(updatedProduct);
+	}
+
+	@Operation(summary = "Remove Product by name")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Produto removido"),
+			@ApiResponse(responseCode = "400", description = "Invalid input data") })
+	@DeleteMapping("delete-by-name/{name}")
+	public ResponseEntity<Void> deleteProductByName(@PathVariable String name) {
+		productService.deleteProduct(name);
+		return ResponseEntity.noContent().build();
+	}
+
+	@Operation(summary = "Find Products by Category Name")
+	@GetMapping("find-by-category/{categoryName}")
+	public ResponseEntity<?> getProductsByCategoryName(@PathVariable String categoryName) {
+		List<Product> products = productService.findProductsByCategoryName(categoryName);
+		if (products == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+					.body("Nenhum produto encontrado na Categoria: " + categoryName);
+		}
+		return ResponseEntity.ok(products);
+	}
 
 	@Operation(summary = "List all products")
 	@GetMapping(path = "/list-all", produces = "application/json")
 	public ResponseEntity<?> listProducts() {
 		try {
-            List<Product> products = productService.listProducts();
-            return new ResponseEntity<>(products, HttpStatus.OK);
-        } catch (BusinessException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+			List<Product> products = productService.listProducts();
+			return new ResponseEntity<>(products, HttpStatus.OK);
+		} catch (BusinessException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
 	}
 
+	@Hidden
 	@Operation(summary = "Find Product by ID")
 	@GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-        Product product = productService.findById(id);
-        return ResponseEntity.ok(product);
-    }
-
-	@Operation(summary = "Remove Product by name")
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Produto removido"),
-	@ApiResponse(responseCode = "400", description = "Invalid input data") })
-	@DeleteMapping("/{name}")
-    public ResponseEntity<Void> deleteProductByName(@PathVariable String name) {
-        productService.deleteProduct(name);
-        return ResponseEntity.noContent().build();
-    }
-	
-	@Operation(summary = "Modify Product by name")
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Produto alterado"),
-	@ApiResponse(responseCode = "400", description = "Invalid input data") })
-	@PutMapping("/{name}")
-    public ResponseEntity<Product> updateProductByName(@PathVariable String name, @RequestBody ProductDTO productDTO) {
-        Product updatedProduct = productService.updateProduct(name, productDTO);
-        return ResponseEntity.ok(updatedProduct);
-    }
-	
-	@Operation(summary = "Find Products by Category Name")
-	@GetMapping("/category/{categoryName}")
-	public ResponseEntity<?> getProductsByCategoryName(@PathVariable String categoryName) {
-	    List<Product> products = productService.findProductsByCategoryName(categoryName);
-	    if (products == null) {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-	                .body("Nenhum produto encontrado na Categoria: " + categoryName);
-	    }
-	    return ResponseEntity.ok(products);
+	public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+		Product product = productService.findById(id);
+		return ResponseEntity.ok(product);
 	}
 
 }

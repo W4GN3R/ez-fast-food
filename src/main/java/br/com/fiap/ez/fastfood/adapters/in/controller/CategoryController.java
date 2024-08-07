@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.*;
 
 import br.com.fiap.ez.fastfood.application.ports.in.CategoryService;
 import br.com.fiap.ez.fastfood.domain.model.Category;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("api/categories")
+@Tag(name = "Category Operations", description = "Operations related to category")
 public class CategoryController {
 
     @Autowired
@@ -40,6 +43,7 @@ public class CategoryController {
         return ResponseEntity.ok(categories);
     }
 
+	@Hidden
 	@Operation(summary = "Find Category by ID")
 	@GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
@@ -47,6 +51,7 @@ public class CategoryController {
         return ResponseEntity.ok(category);
     }
 
+	@Hidden
 	@Operation(summary = "Remove Category by ID")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Categoria removida"),
 	@ApiResponse(responseCode = "400", description = "Invalid input data") })
@@ -60,7 +65,7 @@ public class CategoryController {
         }
     }
 	
-	
+	@Hidden
 	@Operation(summary = "Modify Category by ID")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Categoria alterada"),
 	@ApiResponse(responseCode = "400", description = "Invalid input data") })

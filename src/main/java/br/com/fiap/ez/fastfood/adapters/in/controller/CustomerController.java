@@ -3,9 +3,12 @@ package br.com.fiap.ez.fastfood.adapters.in.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.validation.Valid;
 
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/customers")
+@Tag(name = "Customer Operations", description = "Operations related to customers")
 public class CustomerController {
 
 	private final CustomerService customerService;
@@ -29,6 +33,21 @@ public class CustomerController {
 	@Autowired
 	public CustomerController(CustomerService customerService) {
 		this.customerService = customerService;
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
+
+		try {
+			// Customer customer = customerService.authenticate(loginDTO.getCpf(),loginDTO.getPassword());
+			Customer customer = customerService.authenticate(loginDTO.getCpf());
+			CustomerDTO customerDTO = new CustomerDTO(customer.getCpf(), customer.getName(), customer.getEmail());
+			return new ResponseEntity<>(customerDTO, HttpStatus.OK);
+
+		} catch (BusinessException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+		}
+
 	}
 
 	@Operation(summary = "Create a new customer")
@@ -80,6 +99,7 @@ public class CustomerController {
 
 	}
 
+	@Hidden
 	@Operation(summary = "Delete customer by CPF")
 	@DeleteMapping(path = "/delete-by-cpf/{cpf}", produces = "application/json")
 	public ResponseEntity<?> deleteCustomerById(@PathVariable String cpf) {
@@ -93,6 +113,7 @@ public class CustomerController {
 
 	}
 
+	@Hidden
 	@Operation(summary = "Update customer by CPF")
 	@PutMapping("/update-by-cpf/{cpf}")
 	public ResponseEntity<?> updateCustomer(@PathVariable String cpf, @RequestBody Customer updateCustomer) {
@@ -108,20 +129,5 @@ public class CustomerController {
 		}
 
 	}
-	
-	 @PostMapping("/login")
-	    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
-	        
-	        try {
-	        	//Customer customer = customerService.authenticate(loginDTO.getCpf(), loginDTO.getPassword());
-	        	Customer customer = customerService.authenticate(loginDTO.getCpf());
-	        	CustomerDTO customerDTO = new CustomerDTO(customer.getCpf(), customer.getName(), customer.getEmail());
-	        	return new ResponseEntity<>(customerDTO, HttpStatus.OK);
-	            	
-	        }catch (BusinessException e){
-	        	return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
-	        }
-	  
-	    }
 
 }
