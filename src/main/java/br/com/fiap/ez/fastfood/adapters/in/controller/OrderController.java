@@ -37,10 +37,10 @@ public class OrderController {
 		this.orderService = orderService;
 	}
 
-	@Operation(summary = "Register a new order")
+	@Operation(summary = "Register a new order (fake checkout)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Order registered"),
 			@ApiResponse(responseCode = "400", description = "Invalid input data") })
-	@PostMapping(path = "/register-new", produces = "application/json")
+	@PostMapping(path = "/fake-checkout", produces = "application/json")
 	public ResponseEntity<?> registerOrder(@Valid @RequestBody OrderDTO orderDTO) {
 
 		try {
@@ -84,7 +84,7 @@ public class OrderController {
 
 	@Operation(summary = "List unfinished orders")
 
-	@GetMapping(path = "/list-unfinished-orders", produces = "application/json")
+	@GetMapping(path = "/list-orders-in-queue", produces = "application/json")
 	public ResponseEntity<?> listUnfinishedOrders() {
 		try {
 			/*
