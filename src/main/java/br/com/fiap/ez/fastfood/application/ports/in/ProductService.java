@@ -7,7 +7,7 @@ import br.com.fiap.ez.fastfood.domain.model.Product;
 
 public interface ProductService {
 	
-	Product createProduct(Product product);
+	Product createProduct(ProductDTO productDTO);
 	List<Product> listProducts();
 	Product findById(Long id);
     void deleteProduct(String name);

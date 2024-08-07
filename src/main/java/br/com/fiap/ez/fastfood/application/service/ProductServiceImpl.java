@@ -28,18 +28,22 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product createProduct(Product product) {
-	    if (product.getCategory() == null || product.getCategory().getName() == null) {
-	        throw new IllegalArgumentException("Necessário informar a categoria");
-	    }
-	    String categoryName = product.getCategory().getName().toUpperCase();
+	public Product createProduct(ProductDTO productDTO) {
+	    Product product = new Product();
+	    product.setName(productDTO.getName());
+	    product.setDescription(productDTO.getDescription());
+	    product.setPrice(productDTO.getPrice());
+
+	    String categoryName = productDTO.getCategoryName().toUpperCase();
 	    Category category = categoryRepository.findByName(categoryName)
 	            .orElseGet(() -> {
 	                Category newCategory = new Category();
 	                newCategory.setName(categoryName);
 	                return categoryRepository.save(newCategory);
 	            });
+
 	    product.setCategory(category);
+
 	    return productRepository.save(product);
 	}
 	

@@ -42,18 +42,10 @@ public class ProductController {
 			@ApiResponse(responseCode = "400", description = "Invalid input data") })
 	@PostMapping(path = "/create-new", produces = "application/json")
 	public ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDTO) {
-		Product product = new Product();
-		product.setName(productDTO.getName());
-		product.setDescription(productDTO.getDescription());
-		product.setPrice(productDTO.getPrice());
-
-		Category category = new Category();
-		category.setName(productDTO.getCategoryName());
-		product.setCategory(category);
-
-		Product createdProduct = productService.createProduct(product);
-		return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+	    Product createdProduct = productService.createProduct(productDTO);
+	    return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
 	}
+
 
 	@Operation(summary = "Modify Product by name")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Produto alterado"),
