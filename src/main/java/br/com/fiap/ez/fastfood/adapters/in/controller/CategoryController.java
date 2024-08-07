@@ -27,6 +27,14 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+	@Operation(summary = "List all categories")
+	@GetMapping(path = "/list-all", produces = "application/json")
+    public ResponseEntity<List<Category>> listCategories() {
+        List<Category> categories = categoryService.listCategories();
+        return ResponseEntity.ok(categories);
+    }
+	
+	@Hidden
 	@Operation(summary = "Create a new Category")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Categoria criada"),
 	@ApiResponse(responseCode = "400", description = "Invalid input data") })
@@ -34,13 +42,6 @@ public class CategoryController {
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
         Category createdCategory = categoryService.createCategory(category);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
-    }
-
-	@Operation(summary = "List all categories")
-	@GetMapping(path = "/list-all", produces = "application/json")
-    public ResponseEntity<List<Category>> listCategories() {
-        List<Category> categories = categoryService.listCategories();
-        return ResponseEntity.ok(categories);
     }
 
 	@Hidden
