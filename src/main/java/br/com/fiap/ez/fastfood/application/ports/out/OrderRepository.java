@@ -2,7 +2,7 @@ package br.com.fiap.ez.fastfood.application.ports.out;
 
 import java.util.List;
 
-import br.com.fiap.ez.fastfood.application.dto.OrderDTO;
+import br.com.fiap.ez.fastfood.application.dto.OrderResponseDTO;
 import br.com.fiap.ez.fastfood.domain.model.Order;
 
 

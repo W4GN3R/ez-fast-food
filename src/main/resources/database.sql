@@ -98,3 +98,6 @@ CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.PAYMENT (
     FOREIGN KEY (order_id) REFERENCES ORDER(ID),
     FOREIGN KEY (customer_id) REFERENCES CUSTOMER(ID)
 );
+
+--ALTER TABLE ez_fastfood."order" DROP CONSTRAINT IF EXISTS order_order_status_check;
+--ALTER TABLE ez_fastfood."order" ADD CONSTRAINT order_order_status_check CHECK (order_status IN ('WAITING_PAYMENT', 'RECEIVED', 'IN_PREPARATION', 'READY', 'COMPLETED'));

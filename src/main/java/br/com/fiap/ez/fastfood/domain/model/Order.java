@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.time.Duration;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
@@ -23,11 +24,11 @@ public class Order {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "order_time")
-    private Date orderTime;
+    private ZonedDateTime  orderTime;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "completed_time", nullable = true)
-    private Date completedTime;
+    private ZonedDateTime  completedTime;
 
     @Column(name = "total_price")
     private Double totalPrice;
@@ -46,7 +47,7 @@ public class Order {
         // Default constructor
     }
 
-    public Order(Long id, Customer customer, Date orderTime, Date completedTime, Double totalPrice, OrderStatus status,
+    public Order(Long id, Customer customer, ZonedDateTime  orderTime, ZonedDateTime  completedTime, Double totalPrice, OrderStatus status,
                  String customerName, List<OrderItem> orderItems) {
         this.id = id;
         this.customer = customer;
@@ -76,19 +77,19 @@ public class Order {
         this.customer = customer;
     }
 
-    public Date getOrderTime() {
+    public ZonedDateTime  getOrderTime() {
         return orderTime;
     }
 
-    public void setOrderTime(Date orderTime) {
+    public void setOrderTime(ZonedDateTime  orderTime) {
         this.orderTime = orderTime;
     }
 
-    public Date getCompletedTime() {
+    public ZonedDateTime  getCompletedTime() {
         return completedTime;
     }
 
-    public void setCompletedTime(Date completedTime) {
+    public void setCompletedTime(ZonedDateTime  completedTime) {
         this.completedTime = completedTime;
     }
 

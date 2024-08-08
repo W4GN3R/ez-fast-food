@@ -17,8 +17,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import br.com.fiap.ez.fastfood.application.dto.CreateOrderDTO;
 import br.com.fiap.ez.fastfood.application.dto.CustomerDTO;
-import br.com.fiap.ez.fastfood.application.dto.OrderDTO;
+import br.com.fiap.ez.fastfood.application.dto.OrderResponseDTO;
 import br.com.fiap.ez.fastfood.application.ports.in.OrderService;
 import br.com.fiap.ez.fastfood.config.exception.BusinessException;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
@@ -41,11 +42,12 @@ public class OrderController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Order registered"),
 			@ApiResponse(responseCode = "400", description = "Invalid input data") })
 	@PostMapping(path = "/fake-checkout", produces = "application/json")
-	public ResponseEntity<?> registerOrder(@Valid @RequestBody OrderDTO orderDTO) {
+	public ResponseEntity<?> registerOrder(@Valid @RequestBody CreateOrderDTO createOrderDTO) {
 
 		try {
 
-			orderService.registerOrder(orderDTO);
+			//orderService.registerOrder(orderDTO);
+			OrderResponseDTO orderResponseDTO = orderService.registerOrder(createOrderDTO);
 
 			/*
 			 * Order orderDTO = new OrderDTO (registeredOrder.getCustomerName(),
@@ -53,7 +55,7 @@ public class OrderController {
 			 * registeredOrder.getStatus());
 			 */
 
-			return new ResponseEntity<>(orderDTO, HttpStatus.CREATED);
+			return new ResponseEntity<>(orderResponseDTO, HttpStatus.CREATED);
 
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -67,9 +69,9 @@ public class OrderController {
 	public ResponseEntity<?> listOrders() {
 		try {
 			List<Order> orders = orderService.listOrders();
-			List<OrderDTO> ordersDTO = new ArrayList<>();
+			List<OrderResponseDTO> ordersDTO = new ArrayList<>();
 			for (Order order : orders) {
-				OrderDTO orderDTO = new OrderDTO(order.getId(),
+				OrderResponseDTO orderDTO = new OrderResponseDTO(order.getId(),
 						// order.getCustomer().getCpf(),
 						order.getCustomerName(), order.getOrderTime(), order.getCompletedTime(), order.getTotalPrice(),
 						order.getStatus());
@@ -95,7 +97,7 @@ public class OrderController {
 			 * order.getCompletedTime(), order.getTotalPrice(), order.getStatus());
 			 * ordersDTO.add(orderDTO); }
 			 */
-			List<OrderDTO> ordersDTO = orderService.listUnfinishedOrders();
+			List<OrderResponseDTO> ordersDTO = orderService.listUnfinishedOrders();
 			return new ResponseEntity<>(ordersDTO, HttpStatus.OK);
 		} catch (BusinessException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
