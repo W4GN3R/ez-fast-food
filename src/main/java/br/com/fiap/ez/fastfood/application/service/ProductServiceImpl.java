@@ -34,15 +34,9 @@ public class ProductServiceImpl implements ProductService {
 	    product.setDescription(productDTO.getDescription());
 	    product.setPrice(productDTO.getPrice());
 
-	    String categoryName = productDTO.getCategoryName().toUpperCase();
-	    Category category = categoryRepository.findByName(categoryName)
-	            .orElseGet(() -> {
-	                Category newCategory = new Category();
-	                newCategory.setName(categoryName);
-	                return categoryRepository.save(newCategory);
-	            });
-
-	    product.setCategory(category);
+	    Category category = categoryRepository.findById(productDTO.getCategoryId())
+                .orElseThrow(() -> new BusinessException("Categoria não encontrada"));
+        product.setCategory(category);
 
 	    return productRepository.save(product);
 	}
@@ -54,42 +48,38 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
     public Product findById(Long id) {
-		Product product = productRepository.findById(id);
-		
-		if(product!=null) {
-			return product;
-		}else {
-			throw new BusinessException("Produto não encontrado");
-		}
+        return productRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Produto não encontrado"));
     }
 	
 	@Override
-    public void deleteProduct(String name) {
-        Product product = productRepository.findByName(name)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
-        productRepository.deleteById(product.getId());
-    }
+	public void deleteProduct(Long id) {
+	    Product product = productRepository.findById(id)
+	            .orElseThrow(() -> new BusinessException("Produto não encontrado"));
+	    productRepository.deleteById(id);
+	}
 
-    @Override
-    public Product updateProduct(String name, ProductDTO productDTO) {
-        Product existingProduct = productRepository.findByName(name)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+	@Override
+	public Product updateProduct(Long id, ProductDTO productDTO) {
+		// Verificar se o ID é válido
+	    if (id == null || id <= 0) {
+	        throw new BusinessException("ID inválido");
+	    }
+		
+	    Product existingProduct = productRepository.findById(id)
+	            .orElseThrow(() -> new BusinessException("Produto não encontrado"));
 
-        existingProduct.setName(productDTO.getName());
-        existingProduct.setDescription(productDTO.getDescription());
-        existingProduct.setPrice(productDTO.getPrice());
+	    existingProduct.setName(productDTO.getName());
+	    existingProduct.setDescription(productDTO.getDescription());
+	    existingProduct.setPrice(productDTO.getPrice());
 
-        String categoryName = productDTO.getCategoryName().toUpperCase();
-        Category category = categoryRepository.findByName(categoryName)
-                .orElseGet(() -> {
-                    Category newCategory = new Category();
-                    newCategory.setName(categoryName);
-                    return categoryRepository.save(newCategory);
-                });
-        existingProduct.setCategory(category);
+	    // Atualizar a categoria apenas com o ID
+	    Category category = categoryRepository.findById(productDTO.getCategoryId())
+	            .orElseThrow(() -> new BusinessException("Categoria não encontrada"));
+	    existingProduct.setCategory(category);
 
-        return productRepository.save(existingProduct);
-    }
+	    return productRepository.save(existingProduct);
+	}
     
     @Override
     public List<Product> findProductsByCategoryName(String categoryName) {

@@ -71,15 +71,8 @@ public class OrderServiceImpl implements OrderService {
 			for (OrderItemDTO item : orderDTO.getOrderItems()) {
 
 				OrderItem orderItem = new OrderItem();
-				Product product = new Product();
-
-				product = productRepository.findById(item.getProductId());
-
-				if (product != null) {
-					orderItem.setProduct(product);
-				} else {
-					throw new BusinessException("Produto não existe");
-				}
+				Product product = productRepository.findById(item.getProductId())
+                        .orElseThrow(() -> new BusinessException("Produto não existe"));
 
 				orderItem.setQuantity(item.getQuantity());
 				orderItem.setPrice(product.getPrice() * item.getQuantity());

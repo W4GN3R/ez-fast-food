@@ -3,6 +3,7 @@ package br.com.fiap.ez.fastfood.application.dto;
 public class ProductDTO {
 	
 	private Long id;
+	private Long categoryId;
 	private String categoryName;
     private String description;
     private String name;
@@ -30,6 +31,14 @@ public class ProductDTO {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public String getCategoryName() {
