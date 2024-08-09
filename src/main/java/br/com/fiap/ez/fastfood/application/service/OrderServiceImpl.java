@@ -71,8 +71,15 @@ public class OrderServiceImpl implements OrderService {
 			for (OrderItemDTO item : createOrderDTO.getOrderItems()) {
 
 				OrderItem orderItem = new OrderItem();
-				Product product = productRepository.findById(item.getProductId())
-                        .orElseThrow(() -> new BusinessException("Produto não existe"));
+				Product product = new Product();
+
+				product = productRepository.findById(item.getProductId());
+
+				if (product != null) {
+					orderItem.setProduct(product);
+				} else {
+					throw new BusinessException("Produto não existe");
+				}
 
 				orderItem.setQuantity(item.getQuantity());
 				orderItem.setPrice(product.getPrice() * item.getQuantity());
@@ -80,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
 				orderItems.add(orderItem);
 			}
 			// saveOrder.setOrderTime(new Date());
-			//saveOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("UTC")));
+			// saveOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("UTC")));
 			saveOrder.setOrderItems(orderItems);
 			saveOrder.calculateAndSetTotalPrice();
 
@@ -187,11 +194,11 @@ public class OrderServiceImpl implements OrderService {
 
 		orderResponseDTO.setOrderTime(order.getOrderTime().withZoneSameInstant(ZoneId.of("America/Sao_Paulo")));
 
-		//orderResponseDTO.setWaitedTime(calculateOrderWaitedTime(order.getOrderTime()));
+		// orderResponseDTO.setWaitedTime(calculateOrderWaitedTime(order.getOrderTime()));
 
 		// Map remaining fields
 		orderResponseDTO.setTotalPrice(order.getTotalPrice());
-		if(order.getCustomer()!=null) {
+		if (order.getCustomer() != null) {
 			orderResponseDTO.setCustomerCpf(order.getCustomer().getCpf());
 		}
 		orderResponseDTO.setCustomerName(order.getCustomerName());
