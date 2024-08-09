@@ -47,23 +47,23 @@ public class ProductController {
 	}
 
 
-	@Operation(summary = "Modify Product by name")
+	@Operation(summary = "Modify Product by id")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Produto alterado"),
 			@ApiResponse(responseCode = "400", description = "Invalid input data") })
-	@PutMapping("update-by-name/{name}")
-	public ResponseEntity<Product> updateProductByName(@PathVariable String name, @RequestBody ProductDTO productDTO) {
-		Product updatedProduct = productService.updateProduct(name, productDTO);
-		return ResponseEntity.ok(updatedProduct);
-	}
+	@PutMapping("update-by-id/{id}")
+	public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+        Product updatedProduct = productService.updateProduct(id, productDTO);
+        return ResponseEntity.ok(updatedProduct);
+    }
 
-	@Operation(summary = "Remove Product by name")
+	@Operation(summary = "Remove Product by id")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Produto removido"),
 			@ApiResponse(responseCode = "400", description = "Invalid input data") })
-	@DeleteMapping("delete-by-name/{name}")
-	public ResponseEntity<Void> deleteProductByName(@PathVariable String name) {
-		productService.deleteProduct(name);
-		return ResponseEntity.noContent().build();
-	}
+	@DeleteMapping("delete-by-id/{id}")
+	public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
+    }
 
 	@Operation(summary = "Find Products by Category Name")
 	@GetMapping("find-by-category/{categoryName}")

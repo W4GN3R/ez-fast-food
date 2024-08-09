@@ -1,95 +1,94 @@
 package br.com.fiap.ez.fastfood.application.dto;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import br.com.fiap.ez.fastfood.domain.model.OrderStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 
-public class OrderDTO {
 
+
+public class OrderResponseDTO {
+	
 
 	@JsonProperty("order_id")
-	private Long orderId;
+	private Long orderId = 0L;
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonProperty("customer_cpf")
 	@Schema(description = "Customer CPF (optional)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-	private String customerCpf;
+	private String customerCpf = "";
 
 	@JsonProperty("customer_name")
-	private String customerName;
+	private String customerName = "";
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	@JsonProperty("order_time")
-	private Date orderTime;
+	private ZonedDateTime  orderTime;
 
-	@JsonIgnore
+	
 	@JsonProperty("completed_time")
-	private Date completedTime;
+	private ZonedDateTime completedTime = null;
 
 	@JsonProperty("total_price")
 	private Double totalPrice;
 
-	@JsonIgnore
 	@JsonProperty("status")
-	private OrderStatus status;
+	private OrderStatus orderStatus = null;
 
 	@JsonProperty("order_items")
 	private List<OrderItemDTO> orderItems;
 	
 	 @JsonProperty("waited_time")
-	 private String waitedTime;
+	 private String waitedTime = "";
 
-	public OrderDTO() {
+	public OrderResponseDTO() {
 		// Default constructor
 		this.orderItems = new ArrayList<>();
 	}
 
 	
-	
-	
-	public OrderDTO(Long orderId, String customerName, Date orderTime, Date completedTime, Double totalPrice,
-			OrderStatus status) {
+	public OrderResponseDTO(Long orderId, String customerName, ZonedDateTime orderTime, ZonedDateTime completedTime, Double totalPrice,
+			OrderStatus orderStatus) {
 		super();
 		this.orderId = orderId;
 		this.customerName = customerName;
 		this.orderTime = orderTime;
 		this.completedTime = completedTime;
 		this.totalPrice = totalPrice;
-		this.status = status;
+		this.orderStatus = orderStatus;
 	}
 
 
 
 
-	public OrderDTO(Long orderId, String customerCpf, String customerName, Date orderTime, Date completedTime,
-			Double totalPrice, OrderStatus status) {
+	public OrderResponseDTO(Long orderId, String customerCpf, String customerName, ZonedDateTime orderTime, ZonedDateTime completedTime,
+			Double totalPrice, OrderStatus orderStatus) {
 		this.orderId = orderId;
 		this.customerCpf = customerCpf;
 		this.customerName = customerName;
 		this.orderTime = orderTime;
 		this.completedTime = completedTime;
 		this.totalPrice = totalPrice;
-		this.status = status;
+		this.orderStatus = orderStatus;
 	}
 
 
-	public OrderDTO(String customerCpf, String customerName, Date orderTime, Date completedTime, Double totalPrice,
-			OrderStatus status, List<OrderItemDTO> orderItems) {
+	public OrderResponseDTO(String customerCpf, String customerName, ZonedDateTime orderTime, ZonedDateTime completedTime, Double totalPrice,
+			OrderStatus orderStatus, List<OrderItemDTO> orderItems) {
 		super();
 		this.customerCpf = customerCpf;
 		this.customerName = customerName;
 		this.orderTime = orderTime;
 		this.completedTime = completedTime;
 		this.totalPrice = totalPrice;
-		this.status = status;
+		this.orderStatus = orderStatus;
 		this.orderItems = orderItems;
 	}
 
@@ -103,19 +102,19 @@ public class OrderDTO {
 		this.customerName = customerName;
 	}
 
-	public Date getOrderTime() {
+	public ZonedDateTime getOrderTime() {
 		return orderTime;
 	}
 
-	public void setOrderTime(Date orderTime) {
+	public void setOrderTime(ZonedDateTime orderTime) {
 		this.orderTime = orderTime;
 	}
 
-	public Date getCompletedTime() {
+	public ZonedDateTime getCompletedTime() {
 		return completedTime;
 	}
 
-	public void setCompletedTime(Date completedTime) {
+	public void setCompletedTime(ZonedDateTime completedTime) {
 		this.completedTime = completedTime;
 	}
 
@@ -127,12 +126,12 @@ public class OrderDTO {
 		this.totalPrice = totalPrice;
 	}
 
-	public OrderStatus getStatus() {
-		return status;
+	public OrderStatus getOrderStatus() {
+		return orderStatus;
 	}
 
-	public void setStatus(OrderStatus status) {
-		this.status = status;
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 
 	public List<OrderItemDTO> getOrderItems() {
