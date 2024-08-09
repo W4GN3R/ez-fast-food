@@ -1,6 +1,7 @@
 package br.com.fiap.ez.fastfood.application.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -57,7 +58,6 @@ public class OrderServiceImpl implements OrderService {
 		Customer customer = customerRepository.findCustomerByCpf(createOrderDTO.getCustomerCpf());
 
 		if (customer != null) {
-			System.out.println("ENTREI AQUI");
 			saveOrder.setCustomer(customer);
 		}
 		saveOrder.setCustomerName(createOrderDTO.getCustomerName());
@@ -114,7 +114,8 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<Order> listOrders() {
-		return orderRepository.findAll();
+		// implementar
+		return null;
 	}
 
 	@Override
