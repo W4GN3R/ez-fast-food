@@ -6,7 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.fiap.ez.fastfood.application.dto.ProductDTO;
+import br.com.fiap.ez.fastfood.application.dto.CreateProductDTO;
+import br.com.fiap.ez.fastfood.application.dto.ProductResponseDTO;
 import br.com.fiap.ez.fastfood.application.ports.in.ProductService;
 import br.com.fiap.ez.fastfood.application.ports.out.CategoryRepository;
 import br.com.fiap.ez.fastfood.application.ports.out.ProductRepository;
@@ -28,17 +29,18 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product createProduct(ProductDTO productDTO) {
+	public ProductResponseDTO createProduct(CreateProductDTO createProductDTO) {
 		Product product = new Product();
-		product.setName(productDTO.getName());
-		product.setDescription(productDTO.getDescription());
-		product.setPrice(productDTO.getPrice());
+		product.setName(createProductDTO.getName());
+		product.setDescription(createProductDTO.getDescription());
+		product.setPrice(createProductDTO.getPrice());
 
-		Category category = categoryRepository.findById(productDTO.getCategoryId())
+		Category category = categoryRepository.findById(createProductDTO.getCategoryId())
 				.orElseThrow(() -> new BusinessException("Categoria não encontrada"));
 		product.setCategory(category);
-
-		return productRepository.save(product);
+		
+		Product savedProduct = productRepository.save(product);
+		return convertToDTO(savedProduct);
 	}
 
 	@Override
@@ -71,19 +73,21 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product updateProduct(Long id, ProductDTO productDTO) {
+	public ProductResponseDTO updateProduct(Long id, CreateProductDTO createProductDTO) {
 		Product existingProduct = productRepository.findById(id);
 		if (existingProduct != null) {
-			existingProduct.setName(productDTO.getName());
-			existingProduct.setDescription(productDTO.getDescription());
-			existingProduct.setPrice(productDTO.getPrice());
+			existingProduct.setName(createProductDTO.getName());
+			existingProduct.setDescription(createProductDTO.getDescription());
+			existingProduct.setPrice(createProductDTO.getPrice());
 
 			// Atualizar a categoria apenas com o ID
-			Category category = categoryRepository.findById(productDTO.getCategoryId())
+			Category category = categoryRepository.findById(createProductDTO.getCategoryId())
 					.orElseThrow(() -> new BusinessException("Categoria não encontrada"));
 			existingProduct.setCategory(category);
+			
+			Product updatedProduct = productRepository.save(existingProduct);
 
-			return productRepository.save(existingProduct);
+			return convertToDTO(updatedProduct);
 		} else {
 			throw new BusinessException("Produto não encontrado");
 		}
@@ -102,5 +106,18 @@ public class ProductServiceImpl implements ProductService {
 		List<Product> products = productRepository.findByCategoryId(category.getId());
 		return products.isEmpty() ? null : products;
 	}
+	
+	public ProductResponseDTO convertToDTO(Product product) {
+	    ProductResponseDTO dto = new ProductResponseDTO();
+	    dto.setId(product.getId());
+	    dto.setName(product.getName());
+	    dto.setPrice(product.getPrice());
+	    dto.setDescription(product.getDescription());
+	    dto.setCategoryId(product.getCategory().getId());
+	    return dto;
+	}
+
+	
+	
 
 }

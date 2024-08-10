@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.ez.fastfood.application.dto.ProductDTO;
+import br.com.fiap.ez.fastfood.application.dto.CreateProductDTO;
+import br.com.fiap.ez.fastfood.application.dto.ProductResponseDTO;
 import br.com.fiap.ez.fastfood.application.ports.in.ProductService;
 import br.com.fiap.ez.fastfood.config.exception.BusinessException;
 import br.com.fiap.ez.fastfood.domain.model.Category;
@@ -41,9 +42,18 @@ public class ProductController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Produto criado"),
 			@ApiResponse(responseCode = "400", description = "Invalid input data") })
 	@PostMapping(path = "/create-new", produces = "application/json")
-	public ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDTO) {
-	    Product createdProduct = productService.createProduct(productDTO);
-	    return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+	public ResponseEntity<?> createProduct(@RequestBody CreateProductDTO createProductDTO) {
+	    //Product createdProduct = productService.createProduct(productDTO);
+		
+		try {
+			ProductResponseDTO productResponseDTO =  productService.createProduct(createProductDTO);
+			
+			return new ResponseEntity<>(productResponseDTO, HttpStatus.CREATED);
+		
+		}catch (BusinessException e){
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 
 
@@ -51,9 +61,16 @@ public class ProductController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Produto alterado"),
 			@ApiResponse(responseCode = "400", description = "Invalid input data") })
 	@PutMapping("update-by-id/{id}")
-	public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
-        Product updatedProduct = productService.updateProduct(id, productDTO);
-        return ResponseEntity.ok(updatedProduct);
+	public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody CreateProductDTO createProductDTO) {
+     
+		try {
+			ProductResponseDTO productResponseDTO = productService.updateProduct(id, createProductDTO);
+			return new ResponseEntity<>(productResponseDTO, HttpStatus.CREATED);
+			
+		}catch(BusinessException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
     }
 
 	@Operation(summary = "Remove Product by id")
