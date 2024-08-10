@@ -17,7 +17,7 @@ import br.com.fiap.ez.fastfood.application.dto.OrderResponseDTO;
 import br.com.fiap.ez.fastfood.application.dto.CreateOrderDTO;
 import br.com.fiap.ez.fastfood.application.dto.OrderItemDTO;
 import br.com.fiap.ez.fastfood.application.dto.PaymentDTO;
-import br.com.fiap.ez.fastfood.application.dto.ProductDTO;
+import br.com.fiap.ez.fastfood.application.dto.ProductResponseDTO;
 import br.com.fiap.ez.fastfood.application.ports.in.OrderService;
 import br.com.fiap.ez.fastfood.application.ports.out.CustomerRepository;
 import br.com.fiap.ez.fastfood.application.ports.out.OrderRepository;
