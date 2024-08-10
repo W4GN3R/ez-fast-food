@@ -100,7 +100,30 @@ A aplicação estará disponível em http://localhost:8080
 As APIs foram documentadas utilizando OpenAPI e estão disponíveis em http://localhost:8080/swagger-ui/index.html<br>
 Já há uma massa de dados inicial para facilitar os testes dos endpoints.
 
+## Validação com JMeter:
+
+### Requisitos:
+Java 11 ou superior.
+
+Download do JMeter:
+- Baixe o JMeter versão 5.3 <a href="[https://readme.com/](https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.3.zip)" target="_blank">AQUI</a>
+
+### Instruções de Uso:
+
+Extraia o arquivo ZIP do JMeter.
+Navegue até o diretório bin dentro da pasta extraída.
+Execute o JMeter com o seguinte comando:
+
+### Usuários Linux
+```sh
+./jmeter.sh
+```
+### Usuários Windows
+Para usuários Windows, basta acessar o diretório bin através do caminho onde o JMeter está instalado e executar o arquivo jmeter.bat, como na imagem abaixo:
+
+** IMAGEM **
+
 ## Desenvolvido por:
-@tchfer : rm357414
-@ThaynaraDaSilva : rm357418
-@W4GN3R: rm357088
+@tchfer : RM357414<br>
+@ThaynaraDaSilva : RM357418<br>
+@W4GN3R: RM357088
