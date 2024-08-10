@@ -4,13 +4,41 @@
 
 O EZ-Fast-Food é um sistema desenvolvido para solucionar os desafios enfrentados por uma lanchonete que está se expandindo devido ao seu sucesso.
 
-## Funcionalidades
+## Entregáveis
 
-O sistema de autoatendimento oferece as seguintes funcionalidades:
+### Cliente
+- **Cadastro do Cliente** :white_check_mark:
+- **Identificação do Cliente via CPF** :white_check_mark:
+  
+### Produto
+- **Criar, Editar e Remover Produtos**
+  - **Criar Produto:** :white_check_mark:
+  - **Editar Produto:** :white_check_mark:
+  - **Remover Produto:** :white_check_mark:
+- **Buscar Produtos por Categoria** :white_check_mark:
 
-- **Cadastro de Clientes**: Os clientes podem se cadastrar para facilitar o processo de pedido.
-- **Gerenciamento e acompanhamento de Pedidos**: Permite o controle eficiente dos pedidos, desde a seleção dos itens até a entrega final.
-- **Pagamentos**: Integração com sistemas de pagamento para facilitar transações seguras e rápidas.
+### Pedido
+- **Fake Checkout**
+  - Envio dos produtos escolhidos para a fila (checkout é a finalização do pedido). :white_check_mark:
+- **Listar os Pedidos** :white_check_mark:
+
+## Entregas Extras
+
+### Cliente
+- **Filtrar Cliente por CPF** :white_check_mark:
+
+### Produto
+- **Listar Todos os Produtos** :white_check_mark:
+
+### Categoria
+- **Listar Todas as Categorias** :white_check_mark:
+
+### Pedidos
+- **Listar Todos os Pedidos Não Finalizados** :white_check_mark:
+
+### Validação
+- **Robo de Validação com JMeter**
+  - Adicionado para validação dos endpoints. :white_check_mark:
 
 ## Tecnologias Utilizadas
 
