@@ -7,38 +7,38 @@ O EZ-Fast-Food é um sistema desenvolvido para solucionar os desafios enfrentado
 ## Entregáveis
 
 ### Cliente
-- **Cadastro do Cliente** :white_check_mark:
-- **Identificação do Cliente via CPF** :white_check_mark:
+- **Cadastro do Cliente** 
+- **Identificação do Cliente via CPF** 
   
 ### Produto
 - **Criar, Editar e Remover Produtos**
-  - **Criar Produto:** :white_check_mark:
-  - **Editar Produto:** :white_check_mark:
-  - **Remover Produto:** :white_check_mark:
-- **Buscar Produtos por Categoria** :white_check_mark:
+  - **Criar Produto:** 
+  - **Editar Produto:** 
+  - **Remover Produto:**
+- **Buscar Produtos por Categoria** 
 
 ### Pedido
 - **Fake Checkout**
-  - Envio dos produtos escolhidos para a fila (checkout é a finalização do pedido). :white_check_mark:
-- **Listar todos os Pedidos** :white_check_mark:
+  - Envio dos produtos escolhidos para a fila (checkout é a finalização do pedido). 
+- **Listar todos os Pedidos** 
 
 ## Entregas Extras
-
+Esses endpoints foram implementados para facilitar as validações. 
 ### Cliente
-- **Filtrar Cliente por CPF** :white_check_mark:
+- **Filtrar Cliente por CPF** 
 
 ### Produto
-- **Listar Todos os Produtos** :white_check_mark:
+- **Listar Todos os Produtos** 
 
 ### Categoria
-- **Listar Todas as Categorias** :white_check_mark:
+- **Listar Todas as Categorias** 
 
 ### Pedidos
-- **Listar Todos os Pedidos Não Finalizados** :white_check_mark:
+- **Listar Todos os Pedidos Não Finalizados** 
 
-### Validação
-- **Robo de Validação com JMeter**
-  - Adicionado para validação dos endpoints. :white_check_mark:
+### Apache JMeter Script
+- **Automação**
+  - Implementada para facilitar a validação dos endpoints e inserção de registros.
 
 ## Tecnologias Utilizadas
 
@@ -58,14 +58,14 @@ A arquitetura hexagonal foi a proposta pela FIAP, ela foi escolhida para isolar 
 
 ### Estrutura de Diretórios
 
-- `src/main/java/br/com/fiap/ez/fastfood`: Código-fonte da aplicação.
-  - `adapters/in`: Adaptadores de entrada, como controllers e outros endpoints.
-  - `adapters/out`: Adaptadores de saída, como repositórios e integrações com sistemas externos.
-  - `application`: Contém a lógica de aplicação, como serviços e casos de uso.
-  - `config`: Configurações gerais da aplicação.
-  - `domain`: Modelo de domínio e interfaces de repositórios.
-- `src/main/resources`: Recursos estáticos e arquivos de configuração.
-- `docker`: Scripts de inicialização e configuração do Docker e Docker Compose.
+- `src/main/java/br/com/fiap/ez/fastfood`
+  - `adapters/in`
+  - `adapters/out`
+  - `application`
+  - `config`
+  - `domain`
+- `src/main/resources`
+- `docker`
 
 ## Instruções de Configuração e Execução
 
@@ -101,4 +101,6 @@ As APIs foram documentadas utilizando OpenAPI e estão disponíveis em http://lo
 Já há uma massa de dados inicial para facilitar os testes dos endpoints.
 
 ## Desenvolvido por:
-@tchfer, @ThaynaraDaSilva e @W4GN3R.
+@tchfer : rm357414
+@ThaynaraDaSilva : rm357418
+@W4GN3R: rm357088
