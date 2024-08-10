@@ -70,11 +70,11 @@ VALUES
 CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.ORDER (
     ID INT PRIMARY KEY,
     customer_id INT NULL,
-    order_time TIMESTAMP,
+    order_time TIME ZONE,
     total_price DECIMAL(10, 2),
     order_status VARCHAR(50) NULL,
     customer_name VARCHAR(255),
-    completed_time TIMESTAMP,
+    completed_time TIME ZONE,
     FOREIGN KEY (customer_id) REFERENCES CUSTOMER(ID)
 );
 

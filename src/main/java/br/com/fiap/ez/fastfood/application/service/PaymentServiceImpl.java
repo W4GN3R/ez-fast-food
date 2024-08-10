@@ -2,6 +2,7 @@ package br.com.fiap.ez.fastfood.application.service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import org.springframework.stereotype.Service;
@@ -41,6 +42,7 @@ public class PaymentServiceImpl implements PaymentService {
 			paymentRepository.save(payment);
 
 	        order.setStatus(OrderStatus.RECEIVED);
+	        order.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
 	        orderRepository.save(order);
 
 		} else {

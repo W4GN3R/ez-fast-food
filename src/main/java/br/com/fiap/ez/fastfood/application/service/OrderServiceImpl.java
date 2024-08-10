@@ -1,10 +1,12 @@
 package br.com.fiap.ez.fastfood.application.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.time.format.DateTimeFormatter;
@@ -28,6 +30,7 @@ import br.com.fiap.ez.fastfood.domain.model.OrderStatus;
 import br.com.fiap.ez.fastfood.domain.model.Payment;
 import br.com.fiap.ez.fastfood.domain.model.PaymentStatus;
 import br.com.fiap.ez.fastfood.domain.model.Product;
+import jakarta.persistence.EnumType;
 import br.com.fiap.ez.fastfood.domain.model.OrderItem;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +42,7 @@ public class OrderServiceImpl implements OrderService {
 	private final ProductRepository productRepository;
 	private final PaymentRepository paymentRepository;
 	private final CustomerRepository customerRepository;
+	
 
 	public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository,
 			PaymentRepository paymentRepository, CustomerRepository customerRepository) {
@@ -57,13 +61,12 @@ public class OrderServiceImpl implements OrderService {
 		Customer customer = customerRepository.findCustomerByCpf(createOrderDTO.getCustomerCpf());
 
 		if (customer != null) {
-			System.out.println("ENTREI AQUI");
 			saveOrder.setCustomer(customer);
 		}
 		saveOrder.setCustomerName(createOrderDTO.getCustomerName());
 		saveOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
 		saveOrder.setStatus(OrderStatus.WAITING_PAYMENT);
-		// registeredOrder.setCompletedTime(createOrderDTO.getCompletedTime());
+
 		List<OrderItem> orderItems = new ArrayList<>();
 
 		if (createOrderDTO.getOrderItems() != null && !createOrderDTO.getOrderItems().isEmpty()) {
@@ -86,41 +89,18 @@ public class OrderServiceImpl implements OrderService {
 				orderItem.setOrder(saveOrder);
 				orderItems.add(orderItem);
 			}
-			// saveOrder.setOrderTime(new Date());
-			// saveOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("UTC")));
 			saveOrder.setOrderItems(orderItems);
 			saveOrder.calculateAndSetTotalPrice();
-
-			/*
-			 * OrderResponseDTO responseDTO = new OrderResponseDTO();
-			 * responseDTO.setTotalPrice(saveOrder.getTotalPrice()); saveOrder =
-			 * orderRepository.save(saveOrder); responseDTO.setOrderId(saveOrder.getId());
-			 * responseDTO.setOrderTime(saveOrder.getOrderTime().withZoneSameInstant(ZoneId.
-			 * of("America/Sao_Paulo")));
-			 * responseDTO.setOrderStatus(OrderStatus.WAITING_PAYMENT);
-			 */
 
 			Order order = orderRepository.save(saveOrder);
 
 			registerPayment(order);
-			// return createOrderDTO;
 			return mapOrderToOrderResponseDTO(order);
 
 		} else {
 			throw new BusinessException("Lista de pedidos vazia");
 		}
 
-	}
-
-	@Override
-	public List<Order> listOrders() {
-		return orderRepository.findAll();
-	}
-
-	@Override
-	public Order updateOrderStatus(Long orderId, String status) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -131,8 +111,14 @@ public class OrderServiceImpl implements OrderService {
 		for (Order order : orderList) {
 			OrderResponseDTO orderDTO = new OrderResponseDTO();
 
-			orderDTO.setCompletedTime(order.getCompletedTime());
-			orderDTO.setCustomerCpf(order.getCustomer() != null ? order.getCustomer().getCpf() : null);
+			if(order.getCompletedTime() == null) {
+				orderDTO.setCompletedTime(null);
+			}else {
+				
+				orderDTO.setCompletedTime(order.getOrderTime().withZoneSameInstant(ZoneId.of("America/Sao_Paulo")));
+			}
+			
+			orderDTO.setCustomerCpf(order.getCustomer() != null ? order.getCustomer().getCpf() : "");
 			orderDTO.setCustomerName(order.getCustomerName());
 			orderDTO.setOrderId(order.getId());
 
@@ -144,10 +130,12 @@ public class OrderServiceImpl implements OrderService {
 				orderItemDTOs.add(orderItemDTO);
 			}
 			orderDTO.setOrderItems(orderItemDTOs);
-			orderDTO.setOrderTime(order.getOrderTime());
+			orderDTO.setOrderTime(order.getOrderTime().withZoneSameInstant(ZoneId.of("America/Sao_Paulo")));
 			orderDTO.setOrderStatus(order.getStatus());
 			orderDTO.setTotalPrice(order.getTotalPrice());
-			orderDTO.setWaitedTime(calculateOrderWaitedTime(order));
+			if(order.getStatus()!= OrderStatus.WAITING_PAYMENT) {
+				orderDTO.setWaitedTime(calculateOrderWaitedTime(order));
+			}
 
 			orderDTOList.add(orderDTO);
 
@@ -167,36 +155,32 @@ public class OrderServiceImpl implements OrderService {
 
 	}
 
-	@Override
-	public Order findOrderById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public String calculateOrderWaitedTime(Order order) {
-		LocalDateTime orderLocalDateTime = convertToLocalDateTime(order.getOrderTime());
-		LocalDateTime now = LocalDateTime.now();
+		//LocalDateTime orderLocalDateTime = convertToLocalDateTime(order.getOrderTime().withZoneSameInstant(ZoneId.of("America/Sao_Paulo")));
+		 ZonedDateTime orderZonedDateTime =order.getOrderTime().withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
+		ZonedDateTime  now = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
 
-		Duration duration = Duration.between(orderLocalDateTime, now);
+		Duration duration = Duration.between(orderZonedDateTime, now);
 		long hours = duration.toHours();
 		long minutes = duration.toMinutes() % 60;
+		
 
 		return String.format("%02dh%02d", hours, minutes);
+
+		
 	}
 
-	private LocalDateTime convertToLocalDateTime(ZonedDateTime dateTimeToConvert) {
-		return dateTimeToConvert.toLocalDateTime();
-	}
+	/*
+	 * private LocalDateTime convertToLocalDateTime(ZonedDateTime dateTimeToConvert)
+	 * { return dateTimeToConvert.toLocalDateTime(); }
+	 */
 
 	private OrderResponseDTO mapOrderToOrderResponseDTO(Order order) {
 		OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
 		orderResponseDTO.setOrderId(order.getId());
 
-		orderResponseDTO.setOrderTime(order.getOrderTime().withZoneSameInstant(ZoneId.of("America/Sao_Paulo")));
+		orderResponseDTO.setOrderTime(order.getOrderTime());
 
-		// orderResponseDTO.setWaitedTime(calculateOrderWaitedTime(order.getOrderTime()));
-
-		// Map remaining fields
 		orderResponseDTO.setTotalPrice(order.getTotalPrice());
 		if (order.getCustomer() != null) {
 			orderResponseDTO.setCustomerCpf(order.getCustomer().getCpf());
@@ -209,4 +193,52 @@ public class OrderServiceImpl implements OrderService {
 
 		return orderResponseDTO;
 	}
+
+	@Override
+	public List<OrderResponseDTO> listAllOrders() {
+		List<Order> orderList = orderRepository.findAll();
+		List<OrderResponseDTO> orderDTOList = new ArrayList<>();
+
+		for (Order order : orderList) {
+			OrderResponseDTO orderDTO = new OrderResponseDTO();
+
+			
+			orderDTO.setCustomerCpf(order.getCustomer() != null ? order.getCustomer().getCpf() : "");
+			orderDTO.setCustomerName(order.getCustomerName());
+			orderDTO.setOrderId(order.getId());
+
+			List<OrderItemDTO> orderItemDTOs = new ArrayList<>();
+			for (OrderItem orderItem : order.getOrderItems()) {
+				OrderItemDTO orderItemDTO = new OrderItemDTO();
+				orderItemDTO.setProductId(orderItem.getProduct().getId());
+				orderItemDTO.setQuantity(orderItem.getQuantity());
+				orderItemDTOs.add(orderItemDTO);
+			}
+			
+			orderDTO.setOrderItems(orderItemDTOs);
+			
+			orderDTO.setOrderTime(order.getOrderTime().withZoneSameInstant(ZoneId.of("America/Sao_Paulo")));
+			
+			if(order.getCompletedTime() == null) {
+				orderDTO.setCompletedTime(null);
+			}else {
+				
+				orderDTO.setCompletedTime(order.getOrderTime().withZoneSameInstant(ZoneId.of("America/Sao_Paulo")));
+			}
+			
+			if(order.getStatus()!= OrderStatus.WAITING_PAYMENT) {
+				orderDTO.setWaitedTime(calculateOrderWaitedTime(order));
+			}
+			
+
+			orderDTO.setOrderStatus(order.getStatus());
+			orderDTO.setTotalPrice(order.getTotalPrice());
+		
+
+			orderDTOList.add(orderDTO);
+
+		}
+		return orderDTOList;
+	}
+
 }
