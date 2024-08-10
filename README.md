@@ -20,7 +20,7 @@ O EZ-Fast-Food é um sistema desenvolvido para solucionar os desafios enfrentado
 ### Pedido
 - **Fake Checkout**
   - Envio dos produtos escolhidos para a fila (checkout é a finalização do pedido). :white_check_mark:
-- **Listar os Pedidos** :white_check_mark:
+- **Listar todos os Pedidos** :white_check_mark:
 
 ## Entregas Extras
 
