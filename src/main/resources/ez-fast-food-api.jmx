@@ -5,8 +5,6 @@
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
-      <boolProp name="TestPlan.functional_mode">false</boolProp>
-      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
@@ -250,11 +248,11 @@
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
-        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Product Transaction Controller" enabled="false">
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Product Transaction Controller">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
         </TransactionController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1 - POST /api/products/create-new">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1 - POST /api/products/create-new" enabled="false">
             <stringProp name="TestPlan.comments">
 </stringProp>
             <stringProp name="HTTPSampler.domain">${host}</stringProp>
@@ -293,7 +291,7 @@
             </RegexExtractor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="2 - PUT /api/products/update-by-id/{product-id}" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="2 - PUT /api/products/update-by-id/{product-id}" enabled="false">
             <stringProp name="TestPlan.comments">
 </stringProp>
             <stringProp name="HTTPSampler.domain">${host}</stringProp>
@@ -323,7 +321,7 @@
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="3 - DELETE /api/products/delete-by-name/{name}" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="3 - DELETE /api/products/delete-by-name/{name}" enabled="false">
             <stringProp name="HTTPSampler.domain">${host}</stringProp>
             <stringProp name="HTTPSampler.port">${port}</stringProp>
             <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
@@ -355,7 +353,7 @@
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="5 - GET /api/products/list-all" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="5 - GET /api/products/list-all">
             <stringProp name="TestPlan.comments">
 </stringProp>
             <stringProp name="HTTPSampler.domain">${host}</stringProp>
@@ -395,11 +393,11 @@
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
-        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Order Transaction Controller" enabled="true">
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Order Transaction Controller">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
         </TransactionController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1.2 - POST /api/orders/fake-checkout - option 1">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1.2 - POST /api/orders/fake-checkout - option 1" enabled="false">
             <stringProp name="TestPlan.comments">Registro de pedido vinculado ao cliente</stringProp>
             <stringProp name="HTTPSampler.domain">${host}</stringProp>
             <stringProp name="HTTPSampler.port">${port}</stringProp>
@@ -418,7 +416,7 @@
   &quot;customer_name&quot;: &quot;Dulce&quot;,&#xd;
   &quot;order_items&quot;: [&#xd;
     {&#xd;
-      &quot;product_id&quot;: 2,&#xd;
+      &quot;product_id&quot;: 1,&#xd;
       &quot;quantity&quot;: 2&#xd;
     }&#xd;
   ]&#xd;
@@ -440,7 +438,7 @@
             </RegexExtractor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1.2 - POST /api/orders/fake-checkout - option 2" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1.2 - POST /api/orders/fake-checkout - option 2">
             <stringProp name="TestPlan.comments">Registro de pedido sem vinculo ao cliente</stringProp>
             <stringProp name="HTTPSampler.domain">${host}</stringProp>
             <stringProp name="HTTPSampler.port">${port}</stringProp>
@@ -457,12 +455,12 @@
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
   &quot;customer_name&quot;: &quot;Thaynara&quot;,&#xd;
-  &quot;order_time&quot;: &quot;2024-08-07T22:20:43.028Z&quot;,&#xd;
+  &quot;customer_cpf&quot;: &quot;406.000.738-08&quot;,&#xd;
   &quot;total_price&quot;: 0,&#xd;
   &quot;order_items&quot;: [&#xd;
     {&#xd;
-      &quot;product_id&quot;: 0,&#xd;
-      &quot;quantity&quot;: 0&#xd;
+      &quot;product_id&quot;: 1,&#xd;
+      &quot;quantity&quot;: 4&#xd;
     }&#xd;
   ],&#xd;
   &quot;waited_time&quot;: &quot;string&quot;&#xd;
@@ -510,7 +508,7 @@
           <boolProp name="TransactionController.includeTimers">false</boolProp>
         </TransactionController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1 - POST /api/orders/register-new - option 1" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1 - POST /api/orders/register-new - option 1">
             <stringProp name="TestPlan.comments">Registro de pedido vinculado ao cliente</stringProp>
             <stringProp name="HTTPSampler.domain">${host}</stringProp>
             <stringProp name="HTTPSampler.port">${port}</stringProp>
@@ -526,7 +524,7 @@
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-  &quot;orderId&quot;: ${get-order-id}&#xd;
+  &quot;orderId&quot;: 1&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
