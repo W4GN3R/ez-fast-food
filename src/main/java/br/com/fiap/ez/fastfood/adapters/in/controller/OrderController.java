@@ -46,14 +46,7 @@ public class OrderController {
 
 		try {
 
-			//orderService.registerOrder(orderDTO);
 			OrderResponseDTO orderResponseDTO = orderService.registerOrder(createOrderDTO);
-
-			/*
-			 * Order orderDTO = new OrderDTO (registeredOrder.getCustomerName(),
-			 * registeredOrder.getOrderTime(), registeredOrder.getTotalPrice(),
-			 * registeredOrder.getStatus());
-			 */
 
 			return new ResponseEntity<>(orderResponseDTO, HttpStatus.CREATED);
 
@@ -68,15 +61,9 @@ public class OrderController {
 	@GetMapping(path = "/list-all", produces = "application/json")
 	public ResponseEntity<?> listOrders() {
 		try {
-			List<Order> orders = orderService.listOrders();
+
 			List<OrderResponseDTO> ordersDTO = new ArrayList<>();
-			for (Order order : orders) {
-				OrderResponseDTO orderDTO = new OrderResponseDTO(order.getId(),
-						// order.getCustomer().getCpf(),
-						order.getCustomerName(), order.getOrderTime(), order.getCompletedTime(), order.getTotalPrice(),
-						order.getStatus());
-				ordersDTO.add(orderDTO);
-			}
+			ordersDTO = orderService.listAllOrders();
 			return new ResponseEntity<>(ordersDTO, HttpStatus.OK);
 		} catch (BusinessException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -89,14 +76,6 @@ public class OrderController {
 	@GetMapping(path = "/list-orders-in-queue", produces = "application/json")
 	public ResponseEntity<?> listUnfinishedOrders() {
 		try {
-			/*
-			 * List<OrderDTO> ordersDTO = orderService.listUnfinishedOrders();
-			 * List<OrderDTO> list = new ArrayList<>(); for (OrderDTO order : list) {
-			 * OrderDTO orderDTO = new OrderDTO(order.getId(), //
-			 * order.getCustomer().getCpf(), order.getCustomerName(), order.getOrderTime(),
-			 * order.getCompletedTime(), order.getTotalPrice(), order.getStatus());
-			 * ordersDTO.add(orderDTO); }
-			 */
 			List<OrderResponseDTO> ordersDTO = orderService.listUnfinishedOrders();
 			return new ResponseEntity<>(ordersDTO, HttpStatus.OK);
 		} catch (BusinessException e) {

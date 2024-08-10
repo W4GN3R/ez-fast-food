@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.time.format.DateTimeFormatter;
@@ -61,9 +62,16 @@ public class OrderServiceImpl implements OrderService {
 			saveOrder.setCustomer(customer);
 		}
 		saveOrder.setCustomerName(createOrderDTO.getCustomerName());
-		saveOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
+//		/saveOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
+		//saveOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
+		saveOrder.setOrderTime(ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("America/Sao_Paulo")));
+		//saveOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")).toLocalDateTime());
+
+
+
+		//saveOrder.setOrderTime(ZonedDateTime.now(ZoneOffset.UTC).toInstant());
 		saveOrder.setStatus(OrderStatus.WAITING_PAYMENT);
-		// registeredOrder.setCompletedTime(createOrderDTO.getCompletedTime());
+
 		List<OrderItem> orderItems = new ArrayList<>();
 
 		if (createOrderDTO.getOrderItems() != null && !createOrderDTO.getOrderItems().isEmpty()) {
@@ -86,42 +94,18 @@ public class OrderServiceImpl implements OrderService {
 				orderItem.setOrder(saveOrder);
 				orderItems.add(orderItem);
 			}
-			// saveOrder.setOrderTime(new Date());
-			// saveOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("UTC")));
 			saveOrder.setOrderItems(orderItems);
 			saveOrder.calculateAndSetTotalPrice();
-
-			/*
-			 * OrderResponseDTO responseDTO = new OrderResponseDTO();
-			 * responseDTO.setTotalPrice(saveOrder.getTotalPrice()); saveOrder =
-			 * orderRepository.save(saveOrder); responseDTO.setOrderId(saveOrder.getId());
-			 * responseDTO.setOrderTime(saveOrder.getOrderTime().withZoneSameInstant(ZoneId.
-			 * of("America/Sao_Paulo")));
-			 * responseDTO.setOrderStatus(OrderStatus.WAITING_PAYMENT);
-			 */
 
 			Order order = orderRepository.save(saveOrder);
 
 			registerPayment(order);
-			// return createOrderDTO;
 			return mapOrderToOrderResponseDTO(order);
 
 		} else {
 			throw new BusinessException("Lista de pedidos vazia");
 		}
 
-	}
-
-	@Override
-	public List<Order> listOrders() {
-		// implementar
-		return null;
-	}
-
-	@Override
-	public Order updateOrderStatus(Long orderId, String status) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -132,7 +116,7 @@ public class OrderServiceImpl implements OrderService {
 		for (Order order : orderList) {
 			OrderResponseDTO orderDTO = new OrderResponseDTO();
 
-			orderDTO.setCompletedTime(order.getCompletedTime());
+			orderDTO.setCompletedTime(order.getOrderTime());
 			orderDTO.setCustomerCpf(order.getCustomer() != null ? order.getCustomer().getCpf() : null);
 			orderDTO.setCustomerName(order.getCustomerName());
 			orderDTO.setOrderId(order.getId());
@@ -145,6 +129,7 @@ public class OrderServiceImpl implements OrderService {
 				orderItemDTOs.add(orderItemDTO);
 			}
 			orderDTO.setOrderItems(orderItemDTOs);
+			//orderDTO.setOrderTime(order.getOrderTime());
 			orderDTO.setOrderTime(order.getOrderTime());
 			orderDTO.setOrderStatus(order.getStatus());
 			orderDTO.setTotalPrice(order.getTotalPrice());
@@ -168,12 +153,6 @@ public class OrderServiceImpl implements OrderService {
 
 	}
 
-	@Override
-	public Order findOrderById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public String calculateOrderWaitedTime(Order order) {
 		LocalDateTime orderLocalDateTime = convertToLocalDateTime(order.getOrderTime());
 		LocalDateTime now = LocalDateTime.now();
@@ -193,11 +172,8 @@ public class OrderServiceImpl implements OrderService {
 		OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
 		orderResponseDTO.setOrderId(order.getId());
 
-		orderResponseDTO.setOrderTime(order.getOrderTime().withZoneSameInstant(ZoneId.of("America/Sao_Paulo")));
+		orderResponseDTO.setOrderTime(order.getOrderTime());
 
-		// orderResponseDTO.setWaitedTime(calculateOrderWaitedTime(order.getOrderTime()));
-
-		// Map remaining fields
 		orderResponseDTO.setTotalPrice(order.getTotalPrice());
 		if (order.getCustomer() != null) {
 			orderResponseDTO.setCustomerCpf(order.getCustomer().getCpf());
@@ -210,4 +186,39 @@ public class OrderServiceImpl implements OrderService {
 
 		return orderResponseDTO;
 	}
+
+	@Override
+	public List<OrderResponseDTO> listAllOrders() {
+		List<Order> orderList = orderRepository.findAll();
+		List<OrderResponseDTO> orderDTOList = new ArrayList<>();
+
+		for (Order order : orderList) {
+			OrderResponseDTO orderDTO = new OrderResponseDTO();
+
+			orderDTO.setCompletedTime(order.getOrderTime());
+			orderDTO.setCustomerCpf(order.getCustomer() != null ? order.getCustomer().getCpf() : "");
+			orderDTO.setCustomerName(order.getCustomerName());
+			orderDTO.setOrderId(order.getId());
+
+			List<OrderItemDTO> orderItemDTOs = new ArrayList<>();
+			for (OrderItem orderItem : order.getOrderItems()) {
+				OrderItemDTO orderItemDTO = new OrderItemDTO();
+				orderItemDTO.setProductId(orderItem.getProduct().getId());
+				orderItemDTO.setQuantity(orderItem.getQuantity());
+				orderItemDTOs.add(orderItemDTO);
+			}
+			//orderDTO.setOrderItems(orderItemDTOs);
+			orderDTO.setOrderTime(order.getOrderTime());
+
+			orderDTO.setOrderTime(order.getOrderTime());
+			orderDTO.setOrderStatus(order.getStatus());
+			orderDTO.setTotalPrice(order.getTotalPrice());
+			orderDTO.setWaitedTime(calculateOrderWaitedTime(order));
+
+			orderDTOList.add(orderDTO);
+
+		}
+		return orderDTOList;
+	}
+
 }

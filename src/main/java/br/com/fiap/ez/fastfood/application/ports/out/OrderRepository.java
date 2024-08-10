@@ -13,7 +13,7 @@ public interface OrderRepository {
 	//OrderDTO  save(OrderDTO Order);
 	Order save(Order Order);
     List <Order> findAll();
-	//List <OrderResponseDTO> findAll();
+	//List <OrderResponseDTO> findAlll();
 	Order updateOrderStatus(String status);
     List <Order> listUnfinishedOrders();
     Order findOrderById(Long id);

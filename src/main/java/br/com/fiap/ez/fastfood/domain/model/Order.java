@@ -14,128 +14,126 @@ import java.time.format.DateTimeFormatter;
 @Table(name = "`order`") // Syntax to avoid conflict with reserved names
 public class Order {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = true)
-    private Customer customer;
+	@ManyToOne
+	@JoinColumn(name = "customer_id", nullable = true)
+	private Customer customer;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "order_time")
-    private ZonedDateTime  orderTime;
+	@Column(name = "order_time")
+	private ZonedDateTime orderTime;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "completed_time", nullable = true)
-    private ZonedDateTime  completedTime;
+	@Column(name = "completed_time", nullable = true)
+	private ZonedDateTime completedTime;
 
-    @Column(name = "total_price")
-    private Double totalPrice;
+	@Column(name = "total_price")
+	private Double totalPrice;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "order_status", nullable = true)
-    private OrderStatus status;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "order_status", nullable = true)
+	private OrderStatus status;
 
-    @Column(name = "customer_name", nullable = true)
-    private String customerName;
+	@Column(name = "customer_name", nullable = true)
+	private String customerName;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> orderItems;
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<OrderItem> orderItems;
 
-    public Order() {
-        // Default constructor
-    }
+	public Order() {
+		// Default constructor
+	}
 
-    public Order(Long id, Customer customer, ZonedDateTime  orderTime, ZonedDateTime  completedTime, Double totalPrice, OrderStatus status,
-                 String customerName, List<OrderItem> orderItems) {
-        this.id = id;
-        this.customer = customer;
-        this.orderTime = orderTime;
-        this.completedTime = completedTime;
-        this.totalPrice = totalPrice;
-        this.status = status;
-        this.customerName = customerName;
-        this.orderItems = orderItems;
-    }
+	public Order(Long id, Customer customer, ZonedDateTime orderTime, ZonedDateTime completedTime, Double totalPrice,
+			OrderStatus status, String customerName, List<OrderItem> orderItems) {
+		this.id = id;
+		this.customer = customer;
+		this.orderTime = orderTime;
+		this.completedTime = completedTime;
+		this.totalPrice = totalPrice;
+		this.status = status;
+		this.customerName = customerName;
+		this.orderItems = orderItems;
+	}
 
-    // Getters and Setters
+	// Getters and Setters
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Customer getCustomer() {
-        return customer;
-    }
+	public Customer getCustomer() {
+		return customer;
+	}
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 
-    public ZonedDateTime  getOrderTime() {
-        return orderTime;
-    }
 
-    public void setOrderTime(ZonedDateTime  orderTime) {
-        this.orderTime = orderTime;
-    }
+	public ZonedDateTime getOrderTime() {
+		return orderTime;
+	}
 
-    public ZonedDateTime  getCompletedTime() {
-        return completedTime;
-    }
+	public void setOrderTime(ZonedDateTime orderTime) {
+		this.orderTime = orderTime;
+	}
 
-    public void setCompletedTime(ZonedDateTime  completedTime) {
-        this.completedTime = completedTime;
-    }
+	public ZonedDateTime getCompletedTime() {
+		return completedTime;
+	}
 
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
+	public void setCompletedTime(ZonedDateTime completedTime) {
+		this.completedTime = completedTime;
+	}
 
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+	public Double getTotalPrice() {
+		return totalPrice;
+	}
 
-    public OrderStatus getStatus() {
-        return status;
-    }
+	public void setTotalPrice(Double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
+	public OrderStatus getStatus() {
+		return status;
+	}
 
-    public String getCustomerName() {
-        return customerName;
-    }
+	public void setStatus(OrderStatus status) {
+		this.status = status;
+	}
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
+	public String getCustomerName() {
+		return customerName;
+	}
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
 
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
-    }
+	public List<OrderItem> getOrderItems() {
+		return orderItems;
+	}
 
-    public void calculateAndSetTotalPrice() {
-        this.totalPrice = calculateTotalPrice(this.orderItems);
-    }
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
+	}
 
-    public static double calculateTotalPrice(List<OrderItem> orderItems) {
-        double total = 0;
-        for (OrderItem item : orderItems) {
-            total += item.getQuantity() * item.getProduct().getPrice();
-        }
-        return total;
-    }
-    
+	public void calculateAndSetTotalPrice() {
+		this.totalPrice = calculateTotalPrice(this.orderItems);
+	}
+
+	public static double calculateTotalPrice(List<OrderItem> orderItems) {
+		double total = 0;
+		for (OrderItem item : orderItems) {
+			total += item.getQuantity() * item.getProduct().getPrice();
+		}
+		return total;
+	}
 
 }
