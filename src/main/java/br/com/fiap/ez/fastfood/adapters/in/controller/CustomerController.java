@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.fiap.ez.fastfood.application.dto.CustomerDTO;
+import br.com.fiap.ez.fastfood.application.dto.CustomerResponseDTO;
 import br.com.fiap.ez.fastfood.application.dto.LoginDTO;
 import br.com.fiap.ez.fastfood.application.ports.in.CustomerService;
 import br.com.fiap.ez.fastfood.config.exception.BusinessException;
@@ -50,16 +51,15 @@ public class CustomerController {
 
 	}
 
+	
 	@Operation(summary = "Create a new customer")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Customer created"),
 			@ApiResponse(responseCode = "400", description = "Invalid input data") })
 	@PostMapping(path = "/create-new", produces = "application/json")
-	public ResponseEntity<?> createCustomer(@Valid @RequestBody Customer customer) {
+	public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerDTO createCustomerDTO) {
 
 		try {
-			Customer createdCustomer = customerService.createCustomer(customer);
-			CustomerDTO customerDTO = new CustomerDTO(createdCustomer.getCpf(), createdCustomer.getName(),
-					createdCustomer.getEmail());
+			CustomerDTO customerDTO = customerService.createCustomer(createCustomerDTO);
 			return new ResponseEntity<>(customerDTO, HttpStatus.CREATED);
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -67,15 +67,16 @@ public class CustomerController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
+	
 
 	@Operation(summary = "List all customers")
 	@GetMapping(path = "/list-all", produces = "application/json")
 	public ResponseEntity<?> listCustomers() {
 		try {
 			List<Customer> customers = customerService.listCustomers();
-			List<CustomerDTO> customersDTO = new ArrayList<>();
+			List<CustomerResponseDTO> customersDTO = new ArrayList<>();
 			for (Customer customer : customers) {
-				CustomerDTO customerDTO = new CustomerDTO(customer.getCpf(), customer.getName(), customer.getEmail());
+				CustomerResponseDTO customerDTO = new CustomerResponseDTO(customer.getId(), customer.getCpf(), customer.getName(), customer.getEmail());
 				customersDTO.add(customerDTO);
 			}
 			return new ResponseEntity<>(customersDTO, HttpStatus.OK);

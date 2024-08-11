@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import java.util.List;
 
-import br.com.fiap.ez.fastfood.application.dto.OrderResponseDTO;
+
 import br.com.fiap.ez.fastfood.domain.model.Order;
 
 

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.fiap.ez.fastfood.application.dto.CustomerDTO;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
 
 public interface CustomerJpaRepository extends JpaRepository<Customer, Long> {
