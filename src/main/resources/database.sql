@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS EZ_FASTFOOD.PAYMENT (
     id BIGSERIAL PRIMARY KEY,
     order_id INT,
     customer_id INT NULL,
-    payment_date DATE NULL,
+    payment_date TIMESTAMP WITH TIME ZONE NULL,
     payment_price DECIMAL,
     payment_status VARCHAR(50),
     FOREIGN KEY (order_id) REFERENCES EZ_FASTFOOD.ORDER(id),

@@ -1,10 +1,7 @@
 package br.com.fiap.ez.fastfood.application.service;
 
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Date;
-
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.ez.fastfood.application.dto.PaymentDTO;
@@ -33,20 +30,24 @@ public class PaymentServiceImpl implements PaymentService {
 		Order order = orderRepository.findOrderById(id);
 		if (order != null) {
 
-			Payment payment = new Payment();
-			payment.setOrder(order);
-			payment.setPaymentDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
-			payment.setPaymentPrice(order.getTotalPrice());
-			payment.setPaymentStatus(PaymentStatus.OK);
-			
-			paymentRepository.save(payment);
+			if (paymentRepository.findPaymentByOrderId(order.getId()) != null) {
+				Payment payment = paymentRepository.findPaymentByOrderId(order.getId());
 
-	        order.setStatus(OrderStatus.RECEIVED);
-	        order.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
-	        orderRepository.save(order);
+				// payment.setOrder(order);
+				payment.setPaymentPrice(order.getTotalPrice());
+				payment.setPaymentDate(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
+				
+				payment.setPaymentStatus(PaymentStatus.OK);
+				paymentRepository.save(payment);
 
-		} else {
-			throw new BusinessException("Pedido não existe");
+				order.setStatus(OrderStatus.RECEIVED);
+				order.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
+
+				orderRepository.save(order);
+
+			} else {
+				throw new BusinessException("Pedido não existe");
+			}
 		}
 
 	}
