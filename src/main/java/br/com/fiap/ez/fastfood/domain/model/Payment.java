@@ -2,6 +2,8 @@
 package br.com.fiap.ez.fastfood.domain.model;
 
 import jakarta.persistence.*;
+
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Entity
@@ -12,7 +14,6 @@ public class Payment {
 	private Long id;
 
 	@ManyToOne
-
 	@JoinColumn(name = "order_id", nullable = false)
 	private Order order;
 
@@ -24,7 +25,7 @@ public class Payment {
 	@Temporal(TemporalType.TIMESTAMP)
 
 	@Column(name = "payment_date", nullable = true)
-	private Date paymentDate;
+	private ZonedDateTime paymentDate;
 
 	@Column(name = "payment_price", nullable = false)
 	private Double paymentPrice;
@@ -39,7 +40,7 @@ public class Payment {
 		super();
 	}
 
-	public Payment(Long id, Order order, Customer customer, Date paymentDate, Double paymentPrice,
+	public Payment(Long id, Order order, Customer customer, ZonedDateTime paymentDate, Double paymentPrice,
 			PaymentStatus paymentStatus) {
 		super();
 		this.id = id;
@@ -74,11 +75,11 @@ public class Payment {
 		this.customer = customer;
 	}
 
-	public Date getPaymentDate() {
+	public ZonedDateTime getPaymentDate() {
 		return paymentDate;
 	}
 
-	public void setPaymentDate(Date paymentDate) {
+	public void setPaymentDate(ZonedDateTime paymentDate) {
 		this.paymentDate = paymentDate;
 	}
 
