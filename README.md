@@ -106,7 +106,7 @@ Já há uma massa de dados inicial para facilitar os testes dos endpoints.
 Java 11 ou superior.
 
 Download do JMeter:
-- Baixe o JMeter versão 5.3 <a href="[https://readme.com/](https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.3.zip)" target="_blank">AQUI</a>
+- Baixe o JMeter versão 5.3 no link a seguir -> [jmeter-download]
 
 ### Instruções de Uso:
 
@@ -127,3 +127,6 @@ Para usuários Windows, basta acessar o diretório bin através do caminho onde 
 @tchfer : RM357414<br>
 @ThaynaraDaSilva : RM357418<br>
 @W4GN3R: RM357088
+
+[jmeter-download]: https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.3.zip
+
