@@ -45,6 +45,8 @@ Esses endpoints foram implementados para facilitar as validações.
 - **Docker e Docker Compose**
 - **OpenApi**
 
+## Modelagem do Banco de Dados
+![modelagem](https://github.com/user-attachments/assets/bfa15302-2957-47cc-afdf-85cea99b5b7a)
 ## Arquitetura
 
 ### Arquitetura Hexagonal
