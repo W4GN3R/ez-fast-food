@@ -41,7 +41,7 @@ public class OrderController {
 	@Operation(summary = "Register a new order (fake checkout)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Order registered"),
 			@ApiResponse(responseCode = "400", description = "Invalid input data") })
-	@PostMapping(path = "/fake-checkout", produces = "application/json")
+	@PostMapping(path = "/checkout", produces = "application/json")
 	public ResponseEntity<?> registerOrder(@Valid @RequestBody CreateOrderDTO createOrderDTO) {
 
 		try {

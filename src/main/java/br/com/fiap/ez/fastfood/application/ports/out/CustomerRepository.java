@@ -1,5 +1,6 @@
 package br.com.fiap.ez.fastfood.application.ports.out;
 
+import br.com.fiap.ez.fastfood.application.dto.CustomerDTO;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
 import java.util.List;
 
